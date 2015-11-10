@@ -3,14 +3,15 @@ import subprocess
 import sys
 import logging
 import shutil
+import pytesseract
+import requests
+from PIL import Image
+from PIL import ImageFilter
+from StringIO import StringIO
 from flask import Flask, jsonify, render_template, request
 from werkzeug import secure_filename
 
-# import pytesseract
-# import requests
-# from PIL import Image
-# from PIL import ImageFilter
-# from StringIO import StringIO
+
 
 app = Flask(__name__)
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
