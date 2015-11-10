@@ -53,11 +53,8 @@ def process():
             file.save(input_file)
             output_text = ''
             command = ['tesseract', input_file, output_file, '-l', request.form['lang'], hocr]
-            command2 = ['tesseract', input_file, output_text, '-l', request.form['lang'], hocr]
             proc = subprocess.Popen(command, stderr=subprocess.PIPE)
-            proc2 = subprocess.Popen(command2, stderr=subprocess.PIPE)
             proc.wait()
-            proc2.wait()
             
             output_file += ext
 
@@ -66,7 +63,7 @@ def process():
                 resp = jsonify( {
                     u'status': 200,
                     u'ocr':{k:v.decode('utf-8') for k,v in enumerate(f.read().splitlines())},
-                    u'value': str(output_text)
+                    u'value': str('123')
                 } )
             else:
                 resp = jsonify( {
