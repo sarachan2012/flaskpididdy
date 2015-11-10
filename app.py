@@ -51,18 +51,22 @@ def process():
             input_file = os.path.join(folder, secure_filename(file.filename))
             output_file = os.path.join(folder, app.config['OCR_OUTPUT_FILE'])
             file.save(input_file)
-            
+            output_text = ''
             command = ['tesseract', input_file, output_file, '-l', request.form['lang'], hocr]
+            command2 = ['tesseract', input_file, output_text, '-l', request.form['lang'], hocr]
             proc = subprocess.Popen(command, stderr=subprocess.PIPE)
+            proc2 = subprocess.Popen(command2, stderr=subprocess.PIPE)
             proc.wait()
+            proc2.wait()
             
             output_file += ext
-            
+
             if os.path.isfile(output_file):
                 f = open(output_file)
                 resp = jsonify( {
                     u'status': 200,
-                    u'ocr':{k:v.decode('utf-8') for k,v in enumerate(f.read().splitlines())}
+                    u'ocr':{k:v.decode('utf-8') for k,v in enumerate(f.read().splitlines())},
+                    u'value': str(output_text)
                 } )
             else:
                 resp = jsonify( {
