@@ -4,4 +4,4 @@ Werkzeug==0.10.4
 Pillow==3.0.0
 pytesseract==0.1.6
 requests==2.7.0
-PIL==1.1.6
+PIL=1.1.7
