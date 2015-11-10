@@ -24,13 +24,14 @@ app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in set(['png', 'jpg', 'jpeg', 'gif', 'tif', 'tiff'])
 
-# def process_image(url):
-#     image = _get_image(url)
-#     image.filter(ImageFilter.SHARPEN)
-#     return pytesseract.image_to_string(image)
+def process_image(url):
+    image = _get_image(url)
+    image.filter(ImageFilter.SHARPEN)
+    return pytesseract.image_to_string(image)
 
-# def _get_image(url):
-#     return Image.open(StringIO(requests.get(url).content))
+def _get_image(url):
+    return Image.open(StringIO(requests.get(url).content))
+    
 @app.errorhandler(404)
 def not_found(error):
     resp = jsonify( { 
@@ -53,16 +54,16 @@ def api_root():
 def test():
     return render_template('upload_form.html', landing_page = 'process')
 
-# @app.route('/testocr', methods = ['GET'])
-# def testocr():
-#     url = 'https://realpython.com/images/blog_images/ocr/ocr.jpg'
-#     output = process_image(url)
-#     resp = jsonify( {
-#         u'status': 200,
-#         u'message': str(output)
-#     } )
-#     resp.status_code = 200
-#     return resp
+@app.route('/testocr', methods = ['GET'])
+def testocr():
+    url = 'https://realpython.com/images/blog_images/ocr/ocr.jpg'
+    output = process_image(url)
+    resp = jsonify( {
+        u'status': 200,
+        u'message': str(output)
+    } )
+    resp.status_code = 200
+    return resp
 
 @app.route('/process', methods = ['GET','POST'])
 def process():
