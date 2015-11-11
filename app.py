@@ -1,14 +1,14 @@
-import os,subprocess,sys,logging
-import shutil, time, datetime
-import pytesseract,requests,boto
-from boto.s3.connection import S3Connection
-from boto.s3.key import Key
-from PIL import Image
-from PIL import ImageFilter
-from StringIO import StringIO
+import os
+import subprocess
+import sys
+import logging
+import shutil
+import datetime
+
 from flask import Flask, jsonify, render_template, request
 from werkzeug import secure_filename
 
+from manager import ocr_manager, recognition_manager, s3_manager, image_manager
 
 app = Flask(__name__)
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -20,38 +20,7 @@ app.config['OCR_OUTPUT_FILE'] = 'ocr'
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in set(['png', 'jpg', 'jpeg', 'gif', 'tif', 'tiff'])
-
-def process_image(url):
-    image = _get_image(url)
-    image.filter(ImageFilter.SHARPEN)
-    return pytesseract.image_to_string(image)
-
-def _get_image(url):
-    return Image.open(StringIO(requests.get(url).content))
-
-def upload_image_to_s3(file, file_path):
-    filename = getCurrentTimestamp() + secure_filename(file.filename)
-    conn = boto.s3.connect_to_region(
-       region_name = app.config.get('AWS_REGION'),
-       aws_access_key_id = app.config.get('AWS_ACCESS_KEY_ID'),
-       aws_secret_access_key = app.config.get('AWS_SECRET_ACCESS_KEY'),
-       calling_format = boto.s3.connection.OrdinaryCallingFormat()
-    )
-    bucket = conn.get_bucket(app.config.get('AWS_S3_BUCKET'))
-    k = bucket.new_key(filename)
-    k.set_contents_from_filename(file_path)
-    bucket.set_acl('public-read')
-    return k.generate_url(expires_in=0, query_auth=False)
-
-def deleteFile(folder, file_path):
-    if os.path.isfile(file_path):
-        # delete file only
-        os.remove(file_path)
-        # delete folder
-        os.rmdir(folder)
-        return True
-    return False
+    return '.' in filename and filename.rsplit('.', 1)[1] in set(['png', 'jpg', 'jpeg', 'gif'])
 
 def getCurrentTimestamp():
     return str(datetime.datetime.now()).split('.')[0].translate(None, '-: ')
@@ -74,19 +43,9 @@ def api_root():
     resp.status_code = 200
     return resp
 
-@app.route('/alls3files', methods = ['GET'])
+@app.route('/s3/all', methods = ['GET'])
 def getAllfiles():
-    conn = boto.s3.connect_to_region(
-       region_name = app.config.get('AWS_REGION'),
-       aws_access_key_id = app.config.get('AWS_ACCESS_KEY_ID'),
-       aws_secret_access_key = app.config.get('AWS_SECRET_ACCESS_KEY'),
-       calling_format = boto.s3.connection.OrdinaryCallingFormat()
-    )
-    bucket = conn.get_bucket(app.config.get('AWS_S3_BUCKET'))
-    arr = []
-    for key in bucket.list():
-        arr.append(key.name.decode('utf-8', 'ignore'))
-    return str(arr)
+    return s3_manager.get_all_s3_files()
 
 @app.route('/upload', methods = ['GET'])
 def upload():
@@ -99,23 +58,20 @@ def fileUpload():
         file = request.files['file']
         # print file
         if file and allowed_file(file.filename):
-            filename = getCurrentTimestamp() + secure_filename(file.filename) #filename and extension
-            folder = os.path.join(app.config['TEMP_FOLDER'], str(os.getpid()))
-            os.mkdir(folder)
-            file_path = os.path.join(folder, filename)
-            file.save(file_path) # save the file
+            filename = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
+            file_path = image_manager.saveFile(file, filename)
             # upload to amazon s3
-            s3_url = upload_image_to_s3(file, file_path)
+            s3_url = s3_manager.upload_image_to_s3(filename, file_path)
             print s3_url
             # process the image via ocr
-            output = process_image(s3_url)
+            output = ocr_manager.process_image(s3_url)
             resp = jsonify( {
                 u'status': 200,
                 u'message': str(output)
             } )
             resp.status_code = 200
             # delete file
-            deleteFile(folder, file_path)
+            image_manager.deleteFile(file_path)
             return resp
     elif request.method == 'GET':
         resp = jsonify( {
@@ -125,6 +81,16 @@ def fileUpload():
         resp.status_code = 200
         return resp
     return None
+
+@app.route('/compareimg', methods = ['GET'])
+def compareImage():
+    similarity = recognition_manager.compareImage()
+    resp = jsonify( {
+            u'status': 200,
+            u'similarity': str(similarity)
+        } )
+    resp.status_code = 200
+    return resp
 
 @app.route('/process', methods = ['GET','POST'])
 def process():
