@@ -84,9 +84,11 @@ def fileUpload():
 
 @app.route('/compareimg', methods = ['GET'])
 def compareImage():
-    similarity = recognition_manager.compareImage()
+    diff = recognition_manager.compare_image_rms()
+    similarity = recognition_manager.get_images_similarity(diff)
     resp = jsonify( {
             u'status': 200,
+            u'difference': str(diff),
             u'similarity': str(similarity)
         } )
     resp.status_code = 200
