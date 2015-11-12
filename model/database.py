@@ -19,4 +19,5 @@
 #     Base.metadata.create_all(bind=engine)
 
 from flask.ext.sqlalchemy import SQLAlchemy
+
 db = SQLAlchemy()

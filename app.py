@@ -8,7 +8,6 @@ import datetime
 from flask import Flask, jsonify, render_template, request
 from werkzeug import secure_filename
 
-from flask.ext.sqlalchemy import SQLAlchemy
 from model.database import db
 from manager import ocr_manager, recognition_manager, s3_manager, image_manager
 
