@@ -8,6 +8,8 @@ import datetime
 from flask import Flask, jsonify, render_template, request
 from werkzeug import secure_filename
 
+from flask.ext.sqlalchemy import SQLAlchemy
+from model.database import db
 from manager import ocr_manager, recognition_manager, s3_manager, image_manager
 
 app = Flask(__name__)
@@ -18,6 +20,12 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['TEMP_FOLDER'] = '/tmp'
 app.config['OCR_OUTPUT_FILE'] = 'ocr'
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
+# set up database
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+# db = SQLAlchemy(app)
+db.init_app(app)
+with app.test_request_context():
+    db.create_all()
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in set(['png', 'jpg', 'jpeg', 'gif'])
