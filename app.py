@@ -24,6 +24,7 @@ app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 # db = SQLAlchemy(app)
 db.init_app(app)
 with app.test_request_context():
+    db.drop_all()
     db.create_all()
 
 def allowed_file(filename):
@@ -70,6 +71,8 @@ def fileUpload():
             # upload to amazon s3
             s3_url = s3_manager.upload_image_to_s3(filename, file_path)
             print s3_url
+            # insert to database
+            image_manager.insert_image_to_db(s3_url)
             # process the image via ocr
             output = ocr_manager.process_image(s3_url)
             resp = jsonify( {

@@ -8,8 +8,8 @@ class Image(db.Model):
 
     image_id = db.Column(db.Integer, primary_key=True)
     image_url = db.Column(db.String())
-    created_on=db.Column(db.TIMESTAMP,default=db.func.current_timestamp())
-    updated_on = db.Column(db.TIMESTAMP,default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    created_on=db.Column(db.TIMESTAMP,default=db.func.current_timestamp(tz='UTC'))
+    updated_on = db.Column(db.TIMESTAMP,default=db.func.current_timestamp(tz='UTC'), onupdate=db.func.current_timestamp(tz='UTC'))
 
     def __init__(self, image_url):
         self.image_url = image_url
