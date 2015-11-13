@@ -2,7 +2,7 @@
 # from database import Base, db_session
 
 from model.database import db
-
+import datetime,time
 class Audio(db.Model):
     __tablename__ = 'audio'
 
@@ -11,8 +11,12 @@ class Audio(db.Model):
     image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
     refetch = db.Column(db.Integer)
     replay = db.Column(db.Integer)
-    created_on=db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
-    updated_on = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    # created_on= db.Column(db.TIMESTAMP,default=db.func.current_timestamp())
+    # updated_on = db.Column(db.TIMESTAMP,default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    # created_on= db.Column(db.DateTime,default=datetime.datetime.utcnow)
+    # updated_on = db.Column(db.DateTime,default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    created_on= db.Column(db.BIGINT,default=time.time())
+    updated_on = db.Column(db.BIGINT,default=time.time(), onupdate=time.time())
 
     def __init__(self, audio_url, image_id, refetch, replay):
         self.audio_url = audio_url

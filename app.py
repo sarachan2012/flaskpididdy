@@ -45,7 +45,7 @@ def api_root():
     return resp
 
 @app.route('/s3/all', methods = ['GET'])
-def getAllfiles():
+def getAllS3Files():
     return main_controller.get_all_s3_files()
 
 @app.route('/upload', methods = ['GET'])
@@ -68,9 +68,39 @@ def fileUpload():
         return resp
     return None
 
-@app.route('/compareimg', methods = ['GET'])
+@app.route('/test/fileupload', methods = ['GET', 'POST'])
+def test_fileUpload():
+    if request.method == 'POST':
+        file = request.files['file']
+        # print file
+        return main_controller.test_file_upload(file)
+    elif request.method == 'GET':
+        resp = jsonify( {
+                u'status': 200,
+                u'message': str('I\'m working.')
+            } )
+        resp.status_code = 200
+        return resp
+    return None
+
+@app.route('/compareimg', methods = ['GET', 'POST'])
 def compareImage():
-    return main_controller.compareImage()
+    if request.method == 'POST':
+        # files = request.files.getlist("file")
+        file = request.files['file']
+        resp = jsonify( {
+            u'status': 200,
+            u'message': str(main_controller.compareImage(file))
+        })
+        resp.status_code = 200
+        return resp
+    elif request.method == 'GET':
+        resp = jsonify( {
+            u'status': 200,
+            u'message': str('I\'m working.')
+        })
+        resp.status_code = 200
+        return resp
 
 
 if __name__ == '__main__':

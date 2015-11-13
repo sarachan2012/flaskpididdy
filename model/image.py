@@ -2,14 +2,17 @@
 # from database import Base, db_session
 
 from model.database import db
+import time
 
 class Image(db.Model):
     __tablename__ = 'images'
 
     image_id = db.Column(db.Integer, primary_key=True)
     image_url = db.Column(db.String())
-    created_on=db.Column(db.TIMESTAMP,default=db.func.current_timestamp(tz='UTC'))
-    updated_on = db.Column(db.TIMESTAMP,default=db.func.current_timestamp(tz='UTC'), onupdate=db.func.current_timestamp(tz='UTC'))
+    # created_on= db.Column(db.TIMESTAMP,default=db.func.current_timestamp())
+    # updated_on = db.Column(db.TIMESTAMP,default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    created_on= db.Column(db.BIGINT,default=time.time())
+    updated_on = db.Column(db.BIGINT,default=time.time(), onupdate=time.time())
 
     def __init__(self, image_url):
         self.image_url = image_url
