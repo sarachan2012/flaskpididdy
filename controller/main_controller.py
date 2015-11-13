@@ -108,15 +108,6 @@ def compareImage(file):
         return image_process(s3_url)
     return None
 
-def compare_and_ocr(file):
-    if file and allowed_file(file.filename):
-        filename = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
-        file_path = image_manager.saveFile(file, filename)
-        # upload to amazon s3
-        s3_url = s3_manager.upload_image_to_s3(filename, file_path)
-        return image_process(s3_url)
-    return None
-
 def translator(text):
     translator = Translator(app.config['MS_TRANSLATOR_CLIENT_ID'], app.config['MS_TRANSLATOR_CLIENT_SECRET'])
     return translator.translate(text, "zh-CHT").encode('utf-8')
