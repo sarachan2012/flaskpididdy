@@ -54,7 +54,6 @@ def file_upload(file):
         audio_s3_url = s3_manager.upload_image_audio_to_s3(audio_file_name, audio_file_path)
         # insert audio to db
         audio_id = audio_manager.insert_audio_to_db(audio_s3_url, image_id)
-
         resp = jsonify( {
             u'status': 200,
             u'image_id': str(image_id),
