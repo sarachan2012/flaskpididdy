@@ -2,25 +2,30 @@ from PIL import Image
 from PIL import ImageChops
 import math, operator, requests
 from StringIO import StringIO
+from PIL import ImageEnhance
 
 def compare_image_exact(image1, image2):
     # im1 = Image.open("C:/Users/SARA/Desktop/sample/sample5.jpg")
     # im2 = Image.open("C:/Users/SARA/Desktop/sample/sample5.jpg")
     im1 = Image.open(StringIO(requests.get(image1).content))
     im2 = Image.open(StringIO(requests.get(image2).content))
-    return ImageChops.difference(im2, im1).getbbox() is None
+    rbga_im1 = ImageEnhance.Sharpness (im1.convert('RGBA'))
+    rbga_im2 = ImageEnhance.Sharpness (im2.convert('RGBA'))
+    return ImageChops.difference(rbga_im1, rbga_im2).getbbox() is None
 
 def compare_image_rms(image1, image2):
     # im1 = Image.open("C:/Users/SARA/Desktop/sample/sample5.jpg")
     # im2 = Image.open("C:/Users/SARA/Desktop/sample/sample5.jpg")
     im1 = Image.open(StringIO(requests.get(image1).content))
     im2 = Image.open(StringIO(requests.get(image2).content))
-    black_im1 = im1.convert('L')
-    black_im2 = im2.convert('L')
+    # black_im1 = im1.convert('L')
+    # black_im2 = im2.convert('L')
+    rbga_im1 = ImageEnhance.Sharpness (im1.convert('RGBA'))
+    rbga_im2 = ImageEnhance.Sharpness (im2.convert('RGBA'))
     # print 'image 1: ' + image1
     # print 'image 2: ' + image2
     # diff = ImageChops.difference(im1, im2)
-    diff = ImageChops.difference(black_im1, black_im2)
+    diff = ImageChops.difference(rbga_im1, rbga_im2)
     h = diff.histogram()
     sq = (value*((idx%256)**2) for idx, value in enumerate(h))
     sum_of_squares = sum(sq)
