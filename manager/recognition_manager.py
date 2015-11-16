@@ -2,15 +2,14 @@ from PIL import Image
 from PIL import ImageChops
 import math, operator, requests
 from StringIO import StringIO
-from PIL import ImageEnhance
 
 def compare_image_exact(image1, image2):
     # im1 = Image.open("C:/Users/SARA/Desktop/sample/sample5.jpg")
     # im2 = Image.open("C:/Users/SARA/Desktop/sample/sample5.jpg")
     im1 = Image.open(StringIO(requests.get(image1).content))
     im2 = Image.open(StringIO(requests.get(image2).content))
-    rbg_im1 = ImageEnhance.Sharpness (im1.convert('RGB'))
-    rbg_im2 = ImageEnhance.Sharpness (im2.convert('RGB'))
+    rbg_im1 = im1.convert('RGB')
+    rbg_im2 = im2.convert('RGB')
     return ImageChops.difference(rbg_im1, rbg_im2).getbbox() is None
 
 def compare_image_rms(image1, image2):

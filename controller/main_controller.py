@@ -93,7 +93,7 @@ def image_process(new_uploaded_url):
         image_id, highest_similarity = sort_results.items()[0]
         # print highest_similarity
         # threshold for similarity
-        if highest_similarity >= 80:
+        if highest_similarity >= 90:
             return image_id
     return None
 
