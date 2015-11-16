@@ -62,7 +62,7 @@ def audio_html():
 def fileUpload():
     if request.method == 'POST':
         file = request.files['file']
-        # print file
+        print file
         return main_controller.file_upload(file)
     elif request.method == 'GET':
         resp = jsonify( {

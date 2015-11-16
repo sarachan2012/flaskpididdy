@@ -9,7 +9,7 @@ import urllib2, urllib
 from manager import ocr_manager, recognition_manager, s3_manager, image_manager, audio_manager
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in set(['png', 'jpg', 'jpeg', 'gif'])
+    return '.' in filename and filename.rsplit('.', 1)[1] in set(['PNG', 'png', 'JPG', 'jpg', 'JPEG', 'jpeg', 'GIF', 'gif'])
 
 def getCurrentTimestamp():
     return str(datetime.datetime.now()).split('.')[0].translate(None, '-: ')
@@ -23,12 +23,22 @@ def file_upload(file):
         image_file_path = image_manager.saveFile(file, image_file_name)
         # upload to amazon s3
         image_s3_url = s3_manager.upload_image_audio_to_s3(image_file_name, image_file_path)
-        # print s3_url
+        print image_s3_url
         # image recognition
         has_existing_image = image_process(image_s3_url)
+        # print has_existing_image
         if has_existing_image is not None:
             # get the audio
-            return has_existing_image
+            audio_obj = audio_manager.get_audio_lowest_refetch_image_only(has_existing_image)
+            resp = jsonify( {
+                u'status': 200,
+                u'image_id': str(has_existing_image),
+                u'audio_id': str(audio_obj.audio_id),
+                u'audio_url': str(audio_obj.audio_url),
+                u'message': str('Successful file upload.')
+            } )
+            resp.status_code = 200
+            return resp
         # insert to database
         image_id = image_manager.insert_image_to_db(image_s3_url)
         # process the image via ocr
@@ -67,20 +77,22 @@ def image_process(new_uploaded_url):
     results = {}
     # retrieve 1 months worth of images from DB
     files_to_compare = image_manager.list_compare_images(30)
-    if files_to_compare is None:
+    print str(len(files_to_compare))
+    if len(files_to_compare) == 0:
         return None
-    for img_obj in files_to_compare:
-        img_obj_id = img_obj.image_id
-        img_obj_url = img_obj.image_url
-        similarity = recognition_manager.get_images_rms_similarity(new_uploaded_url, img_obj_url)
-        results[img_obj_id] = similarity
-    sort_results = OrderedDict(sorted(results.items(),key=lambda kv: kv[1], reverse=True))
-    # get the first element
-    image_id, highest_similarity = sort_results.items()[0]
-    # print highest_similarity
-    # threshold for similarity
-    if highest_similarity >= 80:
-        return image_id
+    else:
+        for img_obj in files_to_compare:
+            img_obj_id = img_obj.image_id
+            img_obj_url = img_obj.image_url
+            similarity = recognition_manager.get_images_rms_similarity(new_uploaded_url, img_obj_url)
+            results[img_obj_id] = similarity
+        sort_results = OrderedDict(sorted(results.items(),key=lambda kv: kv[1], reverse=True))
+        # get the first element
+        image_id, highest_similarity = sort_results.items()[0]
+        # print highest_similarity
+        # threshold for similarity
+        if highest_similarity >= 80:
+            return image_id
     return None
 
 def compareImage(file):
