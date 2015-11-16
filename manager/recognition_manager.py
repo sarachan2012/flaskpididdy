@@ -20,8 +20,10 @@ def compare_image_rms(image1, image2):
     im2 = Image.open(StringIO(requests.get(image2).content))
     # black_im1 = im1.convert('L')
     # black_im2 = im2.convert('L')
-    rbg_im1 = ImageEnhance.Sharpness (im1.convert('RGB'))
-    rbg_im2 = ImageEnhance.Sharpness (im2.convert('RGB'))
+    # rbg_im1 = ImageEnhance.Sharpness (im1.convert('RGB'))
+    # rbg_im2 = ImageEnhance.Sharpness (im2.convert('RGB'))
+    rbg_im1 = im1.convert('RGB')
+    rbg_im2 = im2.convert('RGB')
     # print 'image 1: ' + image1
     # print 'image 2: ' + image2
     # diff = ImageChops.difference(im1, im2)
