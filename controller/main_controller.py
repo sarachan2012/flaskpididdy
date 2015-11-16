@@ -43,6 +43,7 @@ def file_upload(file):
         image_id = image_manager.insert_image_to_db(image_s3_url)
         # process the image via ocr
         output = ocr_manager.process_image(image_s3_url)
+        print type(output)
         print str(output)
         # translate ocr output to chinese
         chinese_output = translator(output)
