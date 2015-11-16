@@ -4,7 +4,7 @@
 from model.database import db
 import datetime,time
 class Audio(db.Model):
-    __tablename__ = 'audio'
+    __tablename__ = 'audios'
 
     audio_id = db.Column(db.Integer, primary_key=True)
     audio_url = db.Column(db.String())
