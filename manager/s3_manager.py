@@ -13,7 +13,7 @@ def setup_s3_connection():
     bucket = conn.get_bucket(app.config.get('AWS_S3_BUCKET'))
     return bucket
 
-def upload_image_to_s3(filename, file_path):
+def upload_image_audio_to_s3(filename, file_path):
     bucket = setup_s3_connection()
     k = bucket.new_key(filename)
     k.set_contents_from_filename(file_path)

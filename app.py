@@ -53,6 +53,11 @@ def upload():
     # return render_template('upload_form.html', landing_page = 'process')
     return render_template('upload_form.html', landing_page = 'fileupload')
 
+@app.route('/audio', methods = ['GET'])
+def audio_html():
+    # return render_template('upload_form.html', landing_page = 'process')
+    return render_template('audio.html')
+
 @app.route('/fileupload', methods = ['GET', 'POST'])
 def fileUpload():
     if request.method == 'POST':
@@ -62,26 +67,23 @@ def fileUpload():
     elif request.method == 'GET':
         resp = jsonify( {
                 u'status': 200,
-                u'message': str('I\'m working.')
+                u'message': str('File Upload: I\'m working.')
             } )
         resp.status_code = 200
         return resp
     return None
 
-@app.route('/test/js', methods = ['GET', 'POST'])
-def test_js():
-    return main_controller.exec_webspeech('Hello')
-
-@app.route('/test/fileupload', methods = ['GET', 'POST'])
-def test_fileUpload():
+@app.route('/audiorefetch', methods = ['GET', 'POST'])
+def update_audio_refetch():
     if request.method == 'POST':
-        file = request.files['file']
+        image_id = request.POST['image_id']
+        audio_id = request.POST['audio_id']
         # print file
-        return main_controller.test_file_upload(file)
+        return main_controller.update_refetch(image_id, audio_id)
     elif request.method == 'GET':
         resp = jsonify( {
                 u'status': 200,
-                u'message': str('I\'m working.')
+                u'message': str('Audio Refetch: I\'m working.')
             } )
         resp.status_code = 200
         return resp
@@ -105,6 +107,25 @@ def compareImage():
         })
         resp.status_code = 200
         return resp
+
+@app.route('/test/js', methods = ['GET'])
+def test_js():
+    return main_controller.exec_webspeech('Hello')
+
+@app.route('/test/fileupload', methods = ['GET', 'POST'])
+def test_fileUpload():
+    if request.method == 'POST':
+        file = request.files['file']
+        # print file
+        return main_controller.test_file_upload(file)
+    elif request.method == 'GET':
+        resp = jsonify( {
+                u'status': 200,
+                u'message': str('I\'m working.')
+            } )
+        resp.status_code = 200
+        return resp
+    return None
 
 
 if __name__ == '__main__':

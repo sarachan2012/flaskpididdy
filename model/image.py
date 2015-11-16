@@ -22,12 +22,5 @@ class Image(db.Model):
 
     def add(self,image):
         db.session.add(image)
-        return db.session.commit()
-
-    def update(self):
-        return db.session.commit()
-
-    def delete(self,image):
-        db.session.delete(image)
-        return db.session.commit()
-
+        db.session.commit()
+        return image

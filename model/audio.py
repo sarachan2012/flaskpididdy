@@ -8,9 +8,9 @@ class Audio(db.Model):
 
     audio_id = db.Column(db.Integer, primary_key=True)
     audio_url = db.Column(db.String())
-    image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
+    image_id = db.Column(db.Integer)
     refetch = db.Column(db.Integer)
-    replay = db.Column(db.Integer)
+    # replay = db.Column(db.Integer)
     # created_on= db.Column(db.TIMESTAMP,default=db.func.current_timestamp())
     # updated_on = db.Column(db.TIMESTAMP,default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     # created_on= db.Column(db.DateTime,default=datetime.datetime.utcnow)
@@ -29,11 +29,5 @@ class Audio(db.Model):
 
     def add(self,audio):
         db.session.add(audio)
-        return db.session.commit()
-
-    def update(self):
-        return db.session.commit()
-
-    def delete(self,audio):
-        db.session.delete(audio)
-        return db.session.commit()
+        db.session.commit()
+        return audio

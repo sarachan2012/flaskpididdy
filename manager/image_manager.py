@@ -29,8 +29,8 @@ def saveFile(file, filename):
 def insert_image_to_db(image_url):
     image = Image(image_url)
     image_add = image.add(image)
-    if not image_add:
-        return True
+    if image_add is not None:
+        return image_add.image_id
     return False
 
 def list_compare_images(num_of_days):
