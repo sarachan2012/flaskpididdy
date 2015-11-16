@@ -89,7 +89,7 @@ def update_audio_refetch():
         return resp
     return None
 
-@app.route('/compareimg', methods = ['GET', 'POST'])
+@app.route('/test/compareimg', methods = ['GET', 'POST'])
 def compareImage():
     if request.method == 'POST':
         # files = request.files.getlist("file")
@@ -127,6 +127,9 @@ def test_fileUpload():
         return resp
     return None
 
+@app.route('/test/translate', methods = ['GET'])
+def test_translate():
+    return main_controller.translator('Hello')
 
 if __name__ == '__main__':
     # app.run(debug=True)
