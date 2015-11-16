@@ -23,7 +23,7 @@ def file_upload(file):
         image_file_path = image_manager.saveFile(file, image_file_name)
         # upload to amazon s3
         image_s3_url = s3_manager.upload_image_audio_to_s3(image_file_name, image_file_path)
-        print image_s3_url
+        # print image_s3_url
         # image recognition
         has_existing_image = image_process(image_s3_url)
         # print has_existing_image
@@ -77,7 +77,7 @@ def image_process(new_uploaded_url):
     results = {}
     # retrieve 1 months worth of images from DB
     files_to_compare = image_manager.list_compare_images(30)
-    print str(len(files_to_compare))
+    # print str(len(files_to_compare))
     if len(files_to_compare) == 0:
         return None
     else:
