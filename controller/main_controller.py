@@ -4,6 +4,7 @@ from flask import Flask, jsonify, current_app as app
 from collections import OrderedDict
 from werkzeug import secure_filename
 from microsofttranslator import Translator
+import spidermonkey
 
 from manager import ocr_manager, recognition_manager, s3_manager, image_manager
 
@@ -34,6 +35,8 @@ def file_upload(file):
         output = ocr_manager.process_image(s3_url)
         # translate ocr output to chinese
         chinese_output = translator(output)
+        # call js
+
         resp = jsonify( {
             u'status': 200,
             u'message': str(chinese_output)
@@ -111,3 +114,14 @@ def compareImage(file):
 def translator(text):
     translator = Translator(app.config['MS_TRANSLATOR_CLIENT_ID'], app.config['MS_TRANSLATOR_CLIENT_SECRET'])
     return translator.translate(text, "zh-CHT").encode('utf-8')
+
+def loadJsFile(fname):
+    return open(fname).read()
+
+def exec_webspeech(text):
+    chinese_output = translator(text)
+    rt = spidermonkey.Runtime()
+    cx = rt.new_context()
+    cx.add_global("loadfile", loadJsFile)
+    ret = cx.execute('var contents = loadfile("WebSpeech.js"); eval(contents);')
+    return ret

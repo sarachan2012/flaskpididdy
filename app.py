@@ -68,6 +68,10 @@ def fileUpload():
         return resp
     return None
 
+@app.route('/test/js', methods = ['GET', 'POST'])
+def test_js():
+    return main_controller.exec_webspeech('Hello')
+
 @app.route('/test/fileupload', methods = ['GET', 'POST'])
 def test_fileUpload():
     if request.method == 'POST':
