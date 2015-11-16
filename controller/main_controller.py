@@ -79,7 +79,7 @@ def image_process(new_uploaded_url):
     results = {}
     # retrieve 1 months worth of images from DB
     files_to_compare = image_manager.list_compare_images(30)
-    # print str(len(files_to_compare))
+    print 'Retrieve data: ' + str(len(files_to_compare))
     if len(files_to_compare) == 0:
         return None
     else:
