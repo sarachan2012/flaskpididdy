@@ -24,6 +24,14 @@ def getAudioFilePath(filename):
     file_path = os.path.join(folder, filename)
     return file_path
 
+def saveAudioFile(file, filename):
+    folder = getFileFolder()
+    if not os._exists(folder):
+        os.mkdir(folder)
+    file_path = os.path.join(folder, filename)
+    file.save(file_path)  # save the file
+    return file_path
+
 def deleteAudioFile(file_path):
     # folder = getFileFolder()
     folder = os.path.dirname(os.path.abspath(file_path))

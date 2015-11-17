@@ -3,14 +3,16 @@ import datetime
 from flask import Flask, jsonify, current_app as app
 from collections import OrderedDict
 from werkzeug import secure_filename
-# from microsofttranslator import Translator
 from mstranslator import Translator
 import urllib2, urllib
 
 from manager import ocr_manager, recognition_manager, s3_manager, image_manager, audio_manager, date_manager
 
-def allowed_file(filename):
+def image_allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in set(['PNG', 'png', 'JPG', 'jpg', 'JPEG', 'jpeg', 'GIF', 'gif'])
+
+def audio_allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in set(['mp3'])
 
 def getCurrentTimestamp():
     return str(datetime.datetime.now()).split('.')[0].translate(None, '-: ')
@@ -33,7 +35,7 @@ def get_all_s3_files():
     return arr
 
 def elderly_file_upload(file):
-    if file and allowed_file(file.filename):
+    if file and image_allowed_file(file.filename):
         image_file_name = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
         image_file_path = image_manager.saveFile(file, image_file_name)
         # upload to amazon s3
@@ -114,7 +116,7 @@ def image_process(new_uploaded_url):
     return None
 
 def compareImage(file):
-    if file and allowed_file(file.filename):
+    if file and image_allowed_file(file.filename):
         filename = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
         file_path = image_manager.saveFile(file, filename)
         # upload to amazon s3
@@ -154,8 +156,27 @@ def update_refetch(image_id, audio_id):
     resp.status_code = 200
     return resp
 
+def audioupload(file, image_id):
+    if file and audio_allowed_file(file.filename):
+        audio_file_name = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
+        audio_file_path = audio_manager.saveAudioFile(file, audio_file_name)
+        audio_s3_url = s3_manager.upload_image_audio_to_s3(audio_file_name, audio_file_path)
+        # insert audio to db
+        audio_id = audio_manager.insert_audio_to_db(audio_s3_url, image_id, 0)
+        resp = jsonify( {
+            u'status': 200,
+            u'image_id': str(image_id),
+            u'audio_id': str(audio_id),
+            u'audio_url': str(audio_s3_url),
+            u'message': str('Successful file upload.')
+        } )
+        resp.status_code = 200
+        audio_manager.deleteAudioFile(audio_file_path)
+        return resp
+    return None
+
 def test_file_upload(file):
-    if file and allowed_file(file.filename):
+    if file and image_allowed_file(file.filename):
         filename = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
         file_path = image_manager.saveFile(file, filename)
         # upload to amazon s3

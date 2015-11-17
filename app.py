@@ -50,15 +50,15 @@ def getAllS3Files():
     bucket =  main_controller.get_all_s3_files()
     return render_template('s3_table.html', bucket = bucket)
 
-@app.route('/upload', methods = ['GET'])
+@app.route('/file', methods = ['GET'])
 def upload():
     # return render_template('upload_form.html', landing_page = 'process')
     return render_template('upload_form.html', landing_page = 'fileupload')
 
 @app.route('/audio', methods = ['GET'])
 def audio_html():
-    # return render_template('upload_form.html', landing_page = 'process')
-    return render_template('audio.html')
+    return render_template('audio.html', landing_page = 'audioupload')
+    # return render_template('audio.html')
 
 @app.route('/fileupload', methods = ['GET', 'POST'])
 def elderly_fileupload():
@@ -70,6 +70,23 @@ def elderly_fileupload():
         resp = jsonify( {
                 u'status': 200,
                 u'message': str('File Upload: I\'m working.')
+            } )
+        resp.status_code = 200
+        return resp
+    return None
+
+@app.route('/audioupload', methods = ['GET', 'POST'])
+def audio_upload():
+    if request.method == 'POST':
+        dataDict = request.form
+        image_id = dataDict['image_id']
+        file = request.files['file']
+        # print file
+        return main_controller.audioupload(file, image_id)
+    elif request.method == 'GET':
+        resp = jsonify( {
+                u'status': 200,
+                u'message': str('Audio Upload: I\'m working.')
             } )
         resp.status_code = 200
         return resp
