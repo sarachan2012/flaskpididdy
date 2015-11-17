@@ -78,7 +78,7 @@ def elderly_fileupload():
 @app.route('/audiorefetch', methods = ['GET', 'POST'])
 def update_audio_refetch():
     if request.method == 'POST':
-        print str(request)
+        print str(request.form)
         data = request.data
         print data
         dataDict = json.loads(data)
