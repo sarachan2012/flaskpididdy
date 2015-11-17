@@ -62,6 +62,7 @@ def elderly_file_upload(file):
         print str(output)
         # translate ocr output to chinese
         chinese_output = translator(output)
+        print chinese_output
         # call js
         audio_file_name = getCurrentTimestamp() + '_' + "output.mp3"
         audio_file_path = audio_manager.getAudioFilePath(audio_file_name)
@@ -122,7 +123,8 @@ def compareImage(file):
 
 def translator(text):
     translator = Translator(app.config['MS_TRANSLATOR_CLIENT_ID'], app.config['MS_TRANSLATOR_CLIENT_SECRET'])
-    return translator.translate(text, "zh-CHT").encode('utf-8')
+    # return translator.translate(text, "zh-CHT").encode('utf-8')
+    return translator.translate(text, "zh-CHT")
 
 def exec_webspeech(text, file_path):
     url = 'http://120.24.87.124/cgi-bin/ekho2.pl?cmd=SAVEMP3&voice=EkhoCantonese&speedDelta=0&pitchDelta=0&volumeDelta=0&text=' + text
