@@ -3,7 +3,8 @@ import datetime
 from flask import Flask, jsonify, current_app as app
 from collections import OrderedDict
 from werkzeug import secure_filename
-from microsofttranslator import Translator
+# from microsofttranslator import Translator
+from mstranslator import Translator
 import urllib2, urllib
 
 from manager import ocr_manager, recognition_manager, s3_manager, image_manager, audio_manager, date_manager
@@ -124,7 +125,7 @@ def compareImage(file):
 def translator(text):
     translator = Translator(app.config['MS_TRANSLATOR_CLIENT_ID'], app.config['MS_TRANSLATOR_CLIENT_SECRET'])
     # return translator.translate(text, "zh-CHT").encode('utf-8')
-    return translator.translate(text, "zh-CHT")
+    return translator.translate('hello', None, lang_to='zh-CHT').encode('utf-8')
 
 def exec_webspeech(text, file_path):
     url = 'http://120.24.87.124/cgi-bin/ekho2.pl?cmd=SAVEMP3&voice=EkhoCantonese&speedDelta=0&pitchDelta=0&volumeDelta=0&text=' + text
