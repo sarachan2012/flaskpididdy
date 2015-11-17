@@ -41,11 +41,11 @@ def elderly_file_upload(file):
         # print image_s3_url
         # image recognition
         has_existing_image = image_process(image_s3_url)
-        print "Existing Image: " + str(has_existing_image)
+        # print "Existing Image: " + str(has_existing_image)
         if has_existing_image is not None:
             # get the audio
             audio_obj = audio_manager.get_audio_lowest_refetch_image_only(has_existing_image)
-            print "Audio obj:" + str(audio_obj)
+            # print "Audio obj:" + str(audio_obj)
             resp = jsonify( {
                 u'status': 200,
                 u'image_id': str(has_existing_image),
@@ -63,7 +63,7 @@ def elderly_file_upload(file):
         print str(output)
         # translate ocr output to chinese
         chinese_output = translator(output)
-        print chinese_output
+        # print chinese_output
         # call js
         audio_file_name = getCurrentTimestamp() + '_' + "output.mp3"
         audio_file_path = audio_manager.getAudioFilePath(audio_file_name)
