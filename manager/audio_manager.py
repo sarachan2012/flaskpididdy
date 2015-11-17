@@ -43,8 +43,8 @@ def update_audio_refetch(audio_id):
 
 def get_audio_lowest_refetch(image_id, audio_id):
     # order by asc and first
-    return db.session.query(Audio).filter_by(Audio.image_id==image_id, Audio.audio_id!=audio_id).order_by(Audio.refetch).first()
+    return db.session.query(Audio).filter_by(Audio.image_id==image_id, Audio.audio_id!=audio_id).order_by(Audio.refetch).one()
 
 def get_audio_lowest_refetch_image_only(image_id):
     # order by asc and first
-    return db.session.query(Audio).filter(Audio.image_id==image_id).order_by(Audio.refetch).first()
+    return db.session.query(Audio).filter(Audio.image_id==image_id).order_by(Audio.refetch).one()
