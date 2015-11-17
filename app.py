@@ -79,9 +79,7 @@ def elderly_fileupload():
 def update_audio_refetch():
     if request.method == 'POST':
         print str(request.form)
-        data = request.data
-        print data
-        dataDict = json.loads(data)
+        dataDict = request.form
         image_id = dataDict['image_id']
         audio_id = dataDict['audio_id']
         print str(image_id) + "," + str(audio_id)
