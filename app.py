@@ -46,7 +46,8 @@ def api_root():
 
 @app.route('/s3/all', methods = ['GET'])
 def getAllS3Files():
-    return main_controller.get_all_s3_files()
+    bucket =  main_controller.get_all_s3_files()
+    return render_template('s3_table.html', bucket = bucket)
 
 @app.route('/upload', methods = ['GET'])
 def upload():
@@ -59,11 +60,11 @@ def audio_html():
     return render_template('audio.html')
 
 @app.route('/fileupload', methods = ['GET', 'POST'])
-def fileUpload():
+def elderly_fileupload():
     if request.method == 'POST':
         file = request.files['file']
         print file
-        return main_controller.file_upload(file)
+        return main_controller.elderly_file_upload(file)
     elif request.method == 'GET':
         resp = jsonify( {
                 u'status': 200,

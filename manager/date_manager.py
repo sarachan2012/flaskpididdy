@@ -16,3 +16,7 @@ def convert_human_to_unix(input_time):
 
 def format_date(input_datetime):
     return datetime.datetime.strptime(input_datetime, "%Y-%m-%d")
+
+def convert_datetime(input_datetime):
+    return input_datetime[0:4] + '-' + input_datetime[4:6] + '-' + input_datetime [6:8] \
+           + ' ' + input_datetime[8:10] + ':' + input_datetime[10:12] + ':' + input_datetime[12:14]

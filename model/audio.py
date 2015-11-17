@@ -18,11 +18,10 @@ class Audio(db.Model):
     created_on= db.Column(db.BIGINT,default=time.time())
     updated_on = db.Column(db.BIGINT,default=time.time(), onupdate=time.time())
 
-    def __init__(self, audio_url, image_id, refetch, replay):
+    def __init__(self, audio_url, image_id, refetch):
         self.audio_url = audio_url
         self.image_id = image_id
         self.refetch = refetch
-        self.replay = replay
 
     def __repr__(self):
         return '<Audio {}>'.format(self.audio_id)

@@ -5,8 +5,8 @@ from model.database import db
 import os
 from random import randint
 
-def insert_audio_to_db(audio_url, image_id):
-    audio = Audio(audio_url, image_id, 0, 0)
+def insert_audio_to_db(audio_url, image_id, refetch):
+    audio = Audio(audio_url, image_id, refetch)
     audio_add = audio.add(audio)
     if audio_add is not None:
         return audio_add.audio_id

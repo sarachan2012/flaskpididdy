@@ -6,7 +6,7 @@ from werkzeug import secure_filename
 from microsofttranslator import Translator
 import urllib2, urllib
 
-from manager import ocr_manager, recognition_manager, s3_manager, image_manager, audio_manager
+from manager import ocr_manager, recognition_manager, s3_manager, image_manager, audio_manager, date_manager
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in set(['PNG', 'png', 'JPG', 'jpg', 'JPEG', 'jpeg', 'GIF', 'gif'])
@@ -15,9 +15,23 @@ def getCurrentTimestamp():
     return str(datetime.datetime.now()).split('.')[0].translate(None, '-: ')
 
 def get_all_s3_files():
-    return s3_manager.get_all_s3_files()
+    bucket = s3_manager.get_all_s3_files()
+    arr = []
+    count = 0
+    for key in bucket:
+        dict = {}
+        file_name = key.name.decode('utf-8')
+        dict['name'] = file_name
+        if count != 0:
+            dict['date'] = date_manager.convert_datetime(file_name.split('_')[0])
+        else:
+            dict['date'] = None
+        # ts[0:4] + '-' + ts[4:6] + '-' + ts [6:8] + ' ' + ts[8:10] + ':' + ts[10:12] + ':' + ts[12:14]
+        arr.append(dict)
+        count += 1
+    return arr
 
-def file_upload(file):
+def elderly_file_upload(file):
     if file and allowed_file(file.filename):
         image_file_name = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
         image_file_path = image_manager.saveFile(file, image_file_name)
@@ -53,7 +67,7 @@ def file_upload(file):
         audio_dl_file = exec_webspeech(chinese_output, audio_file_path)
         audio_s3_url = s3_manager.upload_image_audio_to_s3(audio_file_name, audio_file_path)
         # insert audio to db
-        audio_id = audio_manager.insert_audio_to_db(audio_s3_url, image_id)
+        audio_id = audio_manager.insert_audio_to_db(audio_s3_url, image_id, 1)
         resp = jsonify( {
             u'status': 200,
             u'image_id': str(image_id),

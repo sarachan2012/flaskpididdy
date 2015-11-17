@@ -22,7 +22,4 @@ def upload_image_audio_to_s3(filename, file_path):
 
 def get_all_s3_files():
     bucket = setup_s3_connection()
-    arr = []
-    for key in bucket.list():
-        arr.append(key.name.decode('utf-8'))
-    return str(arr)
+    return bucket.list()
