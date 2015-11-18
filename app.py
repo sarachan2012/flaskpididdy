@@ -66,7 +66,7 @@ def elderly_web_fileupload():
         file = request.files['file']
         # print file
         data = main_controller.elderly_file_upload(file)
-        print str(data.get('image_id'))
+        print str(data.json())
         image_id = data['image_id']
         audio_id = data['audio_id']
         audio_url = data['audio_url']

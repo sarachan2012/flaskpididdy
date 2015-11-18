@@ -110,7 +110,7 @@ def image_process(new_uploaded_url):
         sort_results = OrderedDict(sorted(results.items(),key=lambda kv: kv[1], reverse=True))
         # get the first element
         image_id, highest_similarity = sort_results.items()[0]
-        # print highest_similarity
+        print "Similarity: " + str(highest_similarity)
         # threshold for similarity
         if highest_similarity >= 90:
             return image_id
