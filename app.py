@@ -99,7 +99,7 @@ def update_audio_refetch():
         dataDict = request.form
         image_id = dataDict['image_id']
         audio_id = dataDict['audio_id']
-        # print str(image_id) + "," + str(audio_id)
+        print str(image_id) + "," + str(audio_id)
         # print file
         return main_controller.update_refetch(image_id, audio_id)
     elif request.method == 'GET':
