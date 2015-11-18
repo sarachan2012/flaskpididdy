@@ -45,6 +45,7 @@ def deleteAudioFile(file_path):
 
 def update_audio_refetch(audio_id):
     audio_obj = db.session.query(Audio).filter(Audio.audio_id==audio_id).first()
+    print "audio obj: " + str(audio_obj)
     # print "audio id:" + str(audio_id)
     old_refetch = audio_obj.refetch
     audio_obj.refetch = old_refetch + 1
