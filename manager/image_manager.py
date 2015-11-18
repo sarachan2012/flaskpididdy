@@ -14,6 +14,7 @@ def deleteFile(file_path):
         os.remove(file_path)
         # delete folder
         os.rmdir(folder)
+        print str(folder)
         return True
     return False
 
