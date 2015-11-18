@@ -62,10 +62,12 @@ def get_audio_lowest_refetch_image_only(image_id):
     return db.session.query(Audio).filter(Audio.image_id==image_id).order_by(Audio.refetch).first()
 
 def clear_audios_table():
-    results = db.session.query(Audio).all()
-    for r in results:
-        print str(r.audio_id)
-        # db.session.query(Audio).filter(Audio.audio_id == r.audio_id).delete()
-        Audio.query.filter(Audio.audio_id == r.audio_id).delete()
-        db.session.commit()
+    Audio.query.delete()
+    db.session.commit()
+    # results = db.session.query(Audio).all()
+    # for r in results:
+    #     print str(r.audio_id)
+    #     # db.session.query(Audio).filter(Audio.audio_id == r.audio_id).delete()
+    #     Audio.query.filter(Audio.audio_id == r.audio_id).delete()
+    #     db.session.commit()
     return True
