@@ -40,7 +40,6 @@ def deleteAudioFile(file_path):
         os.remove(file_path)
         # delete folder
         os.rmdir(folder)
-        shutil.rmtree(folder)
         return True
     return False
 
