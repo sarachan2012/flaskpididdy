@@ -43,7 +43,7 @@ def elderly_file_upload(file):
         # print image_s3_url
         # image recognition
         has_existing_image = image_process(image_s3_url)
-        # print "Existing Image: " + str(has_existing_image)
+        print "Existing Image: " + str(has_existing_image)
         if has_existing_image is not None:
             # get the audio
             audio_obj = audio_manager.get_audio_lowest_refetch_image_only(has_existing_image)
