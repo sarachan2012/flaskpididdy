@@ -127,7 +127,7 @@ def compareImage(file):
 def translator(text):
     translator = Translator(app.config['MS_TRANSLATOR_CLIENT_ID'], app.config['MS_TRANSLATOR_CLIENT_SECRET'])
     # return translator.translate(text, "zh-CHT").encode('utf-8')
-    return translator.translate('hello', None, lang_to='zh-CHT').encode('utf-8')
+    return translator.translate(text, None, lang_to='zh-CHT').encode('utf-8')
 
 def exec_webspeech(text, file_path):
     url = 'http://120.24.87.124/cgi-bin/ekho2.pl?cmd=SAVEMP3&voice=EkhoCantonese&speedDelta=0&pitchDelta=0&volumeDelta=0&text=' + text
