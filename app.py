@@ -153,6 +153,11 @@ def test_fileUpload():
 def test_translate():
     return main_controller.translator('Hello')
 
+@app.route('/cls/tmp', methods = ['GET'])
+def clear_tmp_directory():
+    if os.path.exists(app.config['TEMP_FOLDER']):
+            shutil.rmtree(app.config['TEMP_FOLDER'])
+    return 'Cleared the tmp folder.'
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(app.config.get('HOST'), app.config.get('PORT'), app.debug)

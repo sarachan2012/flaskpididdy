@@ -2,7 +2,7 @@ __author__ = 'SARA'
 from flask import current_app as app
 from model.audio import Audio
 from model.database import db
-import os
+import os, shutil
 from random import randint
 
 def insert_audio_to_db(audio_url, image_id, refetch):
@@ -40,6 +40,7 @@ def deleteAudioFile(file_path):
         os.remove(file_path)
         # delete folder
         os.rmdir(folder)
+        shutil.rmtree(folder)
         return True
     return False
 

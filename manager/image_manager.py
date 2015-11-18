@@ -5,6 +5,7 @@ import time, datetime
 from model.database import db
 import date_manager
 from random import randint
+import shutil
 
 def deleteFile(file_path):
     # folder = getFileFolder()
@@ -14,6 +15,7 @@ def deleteFile(file_path):
         os.remove(file_path)
         # delete folder
         os.rmdir(folder)
+        shutil.rmtree(folder)
         print str(folder)
         return True
     return False
