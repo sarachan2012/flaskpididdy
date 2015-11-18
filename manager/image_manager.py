@@ -56,3 +56,4 @@ def clear_images_table():
         # db.session.query(Image).filter(Image.image_id == r.image_id).delete()
         Image.query.filter(Image.image_id == r.image_id).delete()
         db.session.commit()
+    return True

@@ -177,10 +177,10 @@ def audioupload(file, image_id):
     return None
 
 def clear_audios_table():
-    audio_manager.clear_audios_table()
+    return audio_manager.clear_audios_table()
 
 def clear_images_table():
-    image_manager.clear_images_table()
+    return image_manager.clear_images_table()
 
 def test_file_upload(file):
     if file and image_allowed_file(file.filename):

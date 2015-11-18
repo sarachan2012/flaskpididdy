@@ -68,3 +68,4 @@ def clear_audios_table():
         # db.session.query(Audio).filter(Audio.audio_id == r.audio_id).delete()
         Audio.query.filter(Audio.audio_id == r.audio_id).delete()
         db.session.commit()
+    return True
