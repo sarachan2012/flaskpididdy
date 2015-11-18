@@ -142,7 +142,7 @@ def update_refetch(image_id, audio_id):
     # get audio object and  update audio object
     audio_manager.update_audio_refetch(audio_id)
     # get the next best audio
-    new_audio_obj = audio_manager.get_audio_lowest_refetch(image_id)
+    new_audio_obj = audio_manager.get_audio_lowest_refetch(image_id, audio_id)
     # print str(new_audio_obj)
     new_audio_id = new_audio_obj.audio_id
     new_audio_url = new_audio_obj.audio_url
