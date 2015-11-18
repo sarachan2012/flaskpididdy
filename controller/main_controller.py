@@ -4,7 +4,7 @@ from flask import Flask, jsonify, current_app as app
 from collections import OrderedDict
 from werkzeug import secure_filename
 from mstranslator import Translator
-import urllib2, urllib
+import urllib2, urllib, re
 
 from manager import ocr_manager, recognition_manager, s3_manager, image_manager, audio_manager, date_manager
 
@@ -191,13 +191,13 @@ def test_file_upload(file):
         s3_url = s3_manager.upload_image_audio_to_s3(filename, file_path)
         # print s3_url
         # insert to database
-        image_id = image_manager.insert_image_to_db(s3_url)
+        # image_id = image_manager.insert_image_to_db(s3_url)
         # print image_id
         # process the image via ocr
         output = ocr_manager.process_image(s3_url)
-        # output = output.strip('\n')
-        output_arr = output.split(" \n")
+        output_arr = re.split('[ \n]', output)
         output = " ".join(output_arr)
+        print str(output)
         # translate ocr output to chinese
         # chinese_output = translator(output)
         resp = jsonify( {
