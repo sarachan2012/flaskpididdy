@@ -165,12 +165,12 @@ def clear_tmp_directory():
 @app.route('/db/clearaudios', methods = ['GET'])
 def db_clear_audios_table():
     main_controller.clear_audios_table()
-    return 'Cleared Audio table data'
+    return 'Cleared audios table data'
 
 @app.route('/db/clearimages', methods = ['GET'])
 def db_clear_images_table():
     main_controller.clear_images_table()
-    return 'Cleared Image table data'
+    return 'Cleared images table data'
 
 if __name__ == '__main__':
     # app.run(debug=True)

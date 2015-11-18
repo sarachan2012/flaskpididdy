@@ -52,10 +52,4 @@ def list_compare_images(num_of_days):
 def clear_images_table():
     Image.query.delete()
     db.session.commit()
-    # results = db.session.query(Image).all()
-    # for r in results:
-    #     print str(r.image_id)
-    #     # db.session.query(Image).filter(Image.image_id == r.image_id).delete()
-    #     Image.query.filter(Image.image_id == r.image_id).delete()
-    #     db.session.commit()
     return True
