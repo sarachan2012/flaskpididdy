@@ -50,10 +50,8 @@ def list_compare_images(num_of_days):
     return results
 
 def clear_images_table():
-    num_rows_deleted = 0
-    try:
-        num_rows_deleted = db.session.query(Image).delete()
+    results = db.session.query(Image).all()
+    for r in results:
+        db.session.query(Image).delete(r.image_id)
         db.session.commit()
-    except:
-        db.session.rollback()
-    return num_rows_deleted
+    return True
