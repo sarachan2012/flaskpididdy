@@ -199,7 +199,7 @@ def test_file_upload(file):
         # chinese_output = translator(output)
         resp = jsonify( {
             u'status': 200,
-            u'message': str(image_id)
+            u'message': str(output)
         } )
         resp.status_code = 200
         # delete file
