@@ -195,6 +195,9 @@ def test_file_upload(file):
         # print image_id
         # process the image via ocr
         output = ocr_manager.process_image(s3_url)
+        # output = output.strip('\n')
+        output_arr = output.split(" \n")
+        output = " ".join(output_arr)
         # translate ocr output to chinese
         # chinese_output = translator(output)
         resp = jsonify( {
