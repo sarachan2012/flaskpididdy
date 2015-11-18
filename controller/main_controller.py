@@ -61,13 +61,12 @@ def elderly_file_upload(file):
         image_id = image_manager.insert_image_to_db(image_s3_url)
         # process the image via ocr
         output = ocr_manager.process_image(image_s3_url)
-        output_arr = output.split(" ")
+        output_arr = re.split('[ \n\t\r]', output)
         output = " ".join(output_arr)
-        print type(output)
         print str(output)
         # translate ocr output to chinese
         chinese_output = translator(output)
-        print 'Chinese output: ' + str(chinese_output).encode('utf-8')
+        print 'Chinese output: ' + chinese_output.encode('utf-8')
         # call js
         audio_file_name = getCurrentTimestamp() + '_' + "output.mp3"
         audio_file_path = audio_manager.getAudioFilePath(audio_file_name)
