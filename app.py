@@ -155,8 +155,11 @@ def test_translate():
 
 @app.route('/cls/tmp', methods = ['GET'])
 def clear_tmp_directory():
-    if os.path.exists(app.config['TEMP_FOLDER']):
-        os.remove(app.config['TEMP_FOLDER'])
+    dirPath = app.config['TEMP_FOLDER']
+    if os.path.exists(dirPath):
+        fileList = os.listdir(dirPath)
+        for fileName in fileList:
+         os.remove(dirPath+"/"+fileName)
     return 'Cleared the tmp folder.'
 if __name__ == '__main__':
     # app.run(debug=True)
