@@ -61,7 +61,8 @@ def elderly_file_upload(file):
         image_id = image_manager.insert_image_to_db(image_s3_url)
         # process the image via ocr
         output = ocr_manager.process_image(image_s3_url)
-        output = " ".join(output)
+        output_arr = output.split(" ")
+        output = " ".join(output_arr)
         print type(output)
         print str(output)
         # translate ocr output to chinese
