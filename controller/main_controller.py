@@ -34,6 +34,62 @@ def get_all_s3_files():
         count += 1
     return arr
 
+def elderly_web_file_upload(file):
+    if file and image_allowed_file(file.filename):
+        image_file_name = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
+        image_file_path = image_manager.saveFile(file, image_file_name)
+        # upload to amazon s3
+        image_s3_url = s3_manager.upload_image_audio_to_s3(image_file_name, image_file_path)
+        # print image_s3_url
+        # image recognition
+        has_existing_image = image_process(image_s3_url)
+        print "Existing Image: " + str(has_existing_image)
+        if has_existing_image is not None:
+            # get the audio
+            audio_obj = audio_manager.get_audio_lowest_refetch_image_only(has_existing_image)
+            # print "Audio obj:" + str(audio_obj)
+            resp = {
+                'image_id': str(has_existing_image),
+                'audio_id': str(audio_obj.audio_id),
+                'audio_url': str(audio_obj.audio_url),
+                'message': str('Successful file upload.')
+            }
+            return resp
+        # insert to database
+        image_id = image_manager.insert_image_to_db(image_s3_url)
+        # process the image via ocr
+        output = ocr_manager.process_image(image_s3_url)
+        output_arr = re.split('[ \n\t\r]', output)
+        output = " ".join(output_arr)
+        print str(output)
+        # translate ocr output to chinese
+        chinese_output = translator(output)
+        # print 'Chinese output: ' + chinese_output.encode('utf-8')
+        # call js
+        audio_file_name = getCurrentTimestamp() + '_' + "output.mp3"
+        audio_file_path = audio_manager.getAudioFilePath(audio_file_name)
+        audio_dl_file = exec_webspeech(chinese_output, audio_file_path)
+        audio_s3_url = s3_manager.upload_image_audio_to_s3(audio_file_name, audio_file_path)
+        # insert audio to db
+        audio_id = audio_manager.insert_audio_to_db(audio_s3_url, image_id, 1)
+        resp = {
+            'status': 200,
+            'image_id': str(image_id),
+            'audio_id': str(audio_id),
+            'audio_url': str(audio_s3_url),
+            'message': str('Successful file upload.')
+        }
+        # delete file
+        image_manager.deleteFile(image_file_path)
+        audio_manager.deleteAudioFile(audio_file_path)
+        return resp
+    else:
+        error_resp = {
+            'status': 201,
+            'message': str('Not process')
+        }
+        return error_resp
+
 def elderly_file_upload(file):
     if file and image_allowed_file(file.filename):
         image_file_name = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
@@ -112,7 +168,7 @@ def image_process(new_uploaded_url):
         image_id, highest_similarity = sort_results.items()[0]
         print "Similarity: " + str(highest_similarity)
         # threshold for similarity
-        if highest_similarity >= 90:
+        if highest_similarity >= 95:
             return image_id
     return None
 
