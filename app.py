@@ -52,13 +52,32 @@ def getAllS3Files():
 
 @app.route('/file', methods = ['GET'])
 def upload():
-    # return render_template('upload_form.html', landing_page = 'process')
-    return render_template('upload_form.html', landing_page = 'fileupload')
+    # return render_template('upload_form.html', landing_page = 'fileupload')
+    return render_template('upload_form.html', landing_page = 'webfileupload')
 
 @app.route('/audio', methods = ['GET'])
 def audio_html():
     return render_template('audio.html', landing_page = 'audioupload')
     # return render_template('audio.html')
+
+@app.route('/webfileupload', methods = ['GET', 'POST'])
+def elderly_web_fileupload():
+    if request.method == 'POST':
+        file = request.files['file']
+        # print file
+        data = json.loads(main_controller.elderly_file_upload(file))
+        image_id = data['image_id']
+        audio_id = data['audio_id']
+        audio_url = data['audio_url']
+        return render_template('play.html', image_id = image_id, audio_id = audio_id, audio_url = audio_url)
+    elif request.method == 'GET':
+        resp = jsonify( {
+                u'status': 200,
+                u'message': str('File Upload: I\'m working.')
+            } )
+        resp.status_code = 200
+        return resp
+    return None
 
 @app.route('/fileupload', methods = ['GET', 'POST'])
 def elderly_fileupload():

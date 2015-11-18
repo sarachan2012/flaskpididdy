@@ -44,9 +44,9 @@ def deleteAudioFile(file_path):
     return False
 
 def update_audio_refetch(audio_id):
-    print "audio id:" + str(audio_id)
+    # print "audio id:" + str(audio_id)
     audio_obj = db.session.query(Audio).filter(Audio.audio_id==audio_id).first()
-    print "audio obj: " + str(audio_obj)
+    # print "audio obj: " + str(audio_obj)
     old_refetch = audio_obj.refetch
     audio_obj.refetch = old_refetch + 1
     # print "old:" + str(old_refetch)
@@ -56,7 +56,6 @@ def update_audio_refetch(audio_id):
 def get_audio_lowest_refetch(image_id, audio_id):
     # order by asc and first
     return (db.session.query(Audio).filter(Audio.image_id==image_id).filter(Audio.audio_id!=audio_id).order_by(Audio.refetch)).first()
-
 
 def get_audio_lowest_refetch_image_only(image_id):
     # order by asc and first
