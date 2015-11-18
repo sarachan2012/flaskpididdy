@@ -66,7 +66,7 @@ def elderly_file_upload(file):
         print str(output)
         # translate ocr output to chinese
         chinese_output = translator(output)
-        print 'Chinese output: ' + chinese_output.encode('utf-8')
+        # print 'Chinese output: ' + chinese_output.encode('utf-8')
         # call js
         audio_file_name = getCurrentTimestamp() + '_' + "output.mp3"
         audio_file_path = audio_manager.getAudioFilePath(audio_file_name)

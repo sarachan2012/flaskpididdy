@@ -65,5 +65,5 @@ def clear_audios_table():
     results = db.session.query(Audio).all()
     for r in results:
         print str(r.audio_id)
-        db.session.query(Audio).delete(r.audio_id)
+        db.session.query(Audio).filter(Audio.audio_id == r.audio_id).delete()
         db.session.commit()
