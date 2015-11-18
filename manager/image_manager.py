@@ -53,3 +53,6 @@ def clear_images_table():
     Image.query.delete()
     db.session.commit()
     return True
+
+def get_all_images_record_db():
+    return Image.query.all()

@@ -256,6 +256,34 @@ def clear_audios_table():
 def clear_images_table():
     return image_manager.clear_images_table()
 
+def db_all_images_record():
+    list = image_manager.get_all_images_record_db()
+    arr = []
+    for img in list:
+        dict = {}
+        dict['id'] = img.image_id
+        dict['url'] = img.image_url
+        dict['create'] = date_manager.convert_time_unix_to_human_timestamp(img.created_on)
+        dict['update'] = date_manager.convert_time_unix_to_human_timestamp(img.updated_on)
+        arr.append(dict)
+
+    return arr
+
+def db_all_audios_record():
+    audio_list = audio_manager.get_all_audios_record_db()
+    arr = []
+    for img in audio_list:
+        dict = {}
+        dict['id'] = img.audio_id
+        dict['url'] = img.audio_url
+        dict['count'] = img.refetch
+        dict['create'] = date_manager.convert_time_unix_to_human_timestamp(img.created_on)
+        dict['update'] = date_manager.convert_time_unix_to_human_timestamp(img.updated_on)
+        arr.append(dict)
+
+    return arr
+
+
 def test_file_upload(file):
     if file and image_allowed_file(file.filename):
         filename = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension

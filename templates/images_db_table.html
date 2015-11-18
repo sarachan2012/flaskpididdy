@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of images table records</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script type="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>image_id</th>
+                    <th>image_url</th>
+                    <th>created_on</th>
+                    <th>update_on</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in obj_list %}
+                    <tr>
+                        <td>{{ obj.get('id') }} </td>
+                        <td>{{ obj.get('url') }}</td>
+                        <td>{{ obj.get('create') }}</td>
+                        <td>{{ obj.get('update') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -65,3 +65,6 @@ def clear_audios_table():
     Audio.query.delete()
     db.session.commit()
     return True
+
+def get_all_audios_record_db():
+    return Audio.query.all()

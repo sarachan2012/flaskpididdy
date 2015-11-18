@@ -216,6 +216,17 @@ def db_clear_images_table():
     main_controller.clear_images_table()
     return 'Cleared images table data'
 
+@app.route('/db/images/all', methods = ['GET'])
+def db_all_images_table():
+    results = main_controller.db_all_images_record()
+    return render_template('images_db_table.html', obj_list = results)
+
+@app.route('/db/audios/all', methods = ['GET'])
+def db_all_audios_table():
+    results = main_controller.db_all_audios_record()
+    print str(results)
+    return render_template('audios_db_table.html', obj_list = results)
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(app.config.get('HOST'), app.config.get('PORT'), app.debug)

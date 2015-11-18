@@ -20,3 +20,6 @@ def format_date(input_datetime):
 def convert_datetime(input_datetime):
     return input_datetime[0:4] + '-' + input_datetime[4:6] + '-' + input_datetime [6:8] \
            + ' ' + input_datetime[8:10] + ':' + input_datetime[10:12] + ':' + input_datetime[12:14]
+
+def convert_time_unix_to_human_timestamp(input_time):
+    return time.strftime("%Y-%m-%d %H:%M", time.localtime(int(input_time)))
