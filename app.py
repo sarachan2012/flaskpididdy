@@ -161,6 +161,15 @@ def clear_tmp_directory():
         for fileName in fileList:
          os.remove(dirPath+"/"+fileName)
     return 'Cleared the tmp folder.'
+
+@app.route('/db/clearaudios', methods = ['GET'])
+def db_clear_audios_table():
+    return main_controller.clear_audios_table()
+
+@app.route('/db/clearimages', methods = ['GET'])
+def db_clear_images_table():
+    return main_controller.clear_images_table()
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(app.config.get('HOST'), app.config.get('PORT'), app.debug)

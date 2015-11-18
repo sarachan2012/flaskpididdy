@@ -48,3 +48,8 @@ def list_compare_images(num_of_days):
     # query the data database
     results = db.session.query(Image).filter(Image.created_on.between(unix_past, unix_now)).all()
     return results
+
+def clear_images_table():
+    # db.session.query(Image).delete()
+    # db.session.commit()
+    return db.session.query(Image).delete()
