@@ -66,11 +66,11 @@ def elderly_web_fileupload():
         file = request.files['file']
         # print file
         data = main_controller.elderly_web_file_upload(file)
-        print str(data)
+        # print str(data)
         image_id = data['image_id']
         audio_id = data['audio_id']
         audio_url = data['audio_url']
-        return render_template('play.html', image_id = image_id, audio_id = audio_id, audio_url = audio_url)
+        return render_template('play.html', image_id = image_id, audio_id = audio_id, audio_url = audio_url, url_audiorefetch = 'webaudiorefetch')
     elif request.method == 'GET':
         resp = jsonify( {
                 u'status': 200,
@@ -107,6 +107,30 @@ def audio_upload():
         resp = jsonify( {
                 u'status': 200,
                 u'message': str('Audio Upload: I\'m working.')
+            } )
+        resp.status_code = 200
+        return resp
+    return None
+
+@app.route('/webaudiorefetch', methods = ['GET', 'POST'])
+def update_web_audio_refetch():
+    if request.method == 'POST':
+        # print str(request.form)
+        dataDict = request.form
+        image_id = dataDict['image_id']
+        audio_id = dataDict['audio_id']
+        print str(image_id) + "," + str(audio_id)
+        # print file
+        data = main_controller.update_web_refetch(image_id, audio_id)
+        # print str(data)
+        ret_image_id = data['image_id']
+        ret_audio_id = data['audio_id']
+        ret_audio_url = data['audio_url']
+        return render_template('play.html', image_id = ret_image_id, audio_id = ret_audio_id, audio_url = ret_audio_url, url_audiorefetch = 'webaudiorefetch')
+    elif request.method == 'GET':
+        resp = jsonify( {
+                u'status': 200,
+                u'message': str('Audio Refetch: I\'m working.')
             } )
         resp.status_code = 200
         return resp

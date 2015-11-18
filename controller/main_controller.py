@@ -194,6 +194,24 @@ def exec_webspeech(text, file_path):
     return True
     # return urllib.urlretrieve (url, filepath)
 
+def update_web_refetch(image_id, audio_id):
+    # get audio object and  update audio object
+    audio_manager.update_audio_refetch(audio_id)
+    # get the next best audio
+    new_audio_obj = audio_manager.get_audio_lowest_refetch(image_id, audio_id)
+    # print str(new_audio_obj)
+    new_audio_id = new_audio_obj.audio_id
+    new_audio_url = new_audio_obj.audio_url
+    print str(new_audio_id) + "," + str(new_audio_url)
+    resp = {
+        'status': 200,
+        'image_id': str(image_id),
+        'audio_id': str(new_audio_id),
+        'audio_url': str(new_audio_url),
+        'message': str('Successful refetch.')
+    }
+    return resp
+
 def update_refetch(image_id, audio_id):
     # get audio object and  update audio object
     audio_manager.update_audio_refetch(audio_id)

@@ -11,7 +11,7 @@
         <button class="stop btn btn-danger">Stop</button>
     </div>
 
-    <form action="/audiorefetch" method="POST" class="col-md-6 col-md-offset-3" style="text-align: center; margin-top: 20px;">
+    <form action="{{ url_audiorefetch }}" method="POST" class="col-md-6 col-md-offset-3" style="text-align: center; margin-top: 20px;">
         <hidden id="audio_id" name="audio_id" value="{{ audio_id }}"/>
         <hidden id="image_id" name="image_id" value="{{ image_id }}"/>
         <hidden id="audio_url" name="audio_url" value="{{ audio_url }}"/>
@@ -21,9 +21,12 @@
 
 <script>
     $(document).ready(function() {
-        url = $("#audio_url").val();
-        image_id = $("#image_id").val();
-        audio_id = $("#audio_id").val();
+        url = getURLParameter('audio_url');
+        image_id = getURLParameter("image_id");
+        audio_id = getURLParameter("audio_id");
+
+        $("#image_id").val(image_id);
+        $("#audio_id").val(audio_id);
 
         var audioElement = document.createElement('audio');
         audioElement.setAttribute('src', 'https://s3-ap-southeast-1.amazonaws.com/media2.pi-diddy.herokuapp.com/' + url);
