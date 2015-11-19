@@ -121,6 +121,7 @@ def update_web_audio_refetch():
         dataDict = request.form
         image_id = dataDict['image_id']
         audio_id = dataDict['audio_id']
+        output = dataDict['output']
         print str(image_id) + "," + str(audio_id)
         # print file
         data = main_controller.update_web_refetch(image_id, audio_id)
@@ -128,9 +129,9 @@ def update_web_audio_refetch():
         ret_image_id = data['image_id']
         ret_audio_id = data['audio_id']
         ret_audio_url = data['audio_url']
-        ret_output = data['output']
+
         return render_template('play.html', image_id = ret_image_id, audio_id = ret_audio_id,
-                               audio_url = ret_audio_url, output=ret_output, url_audiorefetch = 'webaudiorefetch')
+                               audio_url = ret_audio_url, output=output, url_audiorefetch = 'webaudiorefetch')
     elif request.method == 'GET':
         resp = jsonify( {
                 u'status': 200,
