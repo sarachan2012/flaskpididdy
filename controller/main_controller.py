@@ -234,9 +234,6 @@ def update_refetch(image_id, audio_id):
     # get the next best audio
     new_audio_obj = audio_manager.get_audio_lowest_refetch(image_id, audio_id)
     # print str(new_audio_obj)
-    new_audio_id = new_audio_obj.audio_id
-    new_audio_url = new_audio_obj.audio_url
-    print str(new_audio_id) + "," + str(new_audio_url)
     if new_audio_obj is None:
         resp = {
             u'status': 200,
@@ -247,6 +244,9 @@ def update_refetch(image_id, audio_id):
         }
         return resp
     else:
+        new_audio_id = new_audio_obj.audio_id
+        new_audio_url = new_audio_obj.audio_url
+        print str(new_audio_id) + "," + str(new_audio_url)
         resp = jsonify( {
             u'status': 200,
             u'image_id': str(image_id),
