@@ -116,7 +116,7 @@ def audio_upload():
 @app.route('/webaudiorefetch', methods = ['GET', 'POST'])
 def update_web_audio_refetch():
     if request.method == 'POST':
-        # print str(request.form)
+        print str(request.form)
         dataDict = request.form
         image_id = dataDict['image_id']
         audio_id = dataDict['audio_id']
