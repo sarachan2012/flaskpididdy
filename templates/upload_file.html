@@ -22,10 +22,19 @@
             margin-right:-4px;
         }
         h2 {
-            font-family: 'Indie Flower', serif;
-            font-size: 40px;
+            font-family: 'Indie Flower', serif !important;
+            font-size: 3em;
             font-weight: bold;
-          }
+        }
+        .alert .glyphicon{
+            display:table-cell;
+        }
+
+        .alert div,
+        .alert span{
+            padding-left: 5px;
+            display:table-cell;
+        }
     </style>
 </head>
 <body style="padding-top: 60px;">
@@ -47,17 +56,25 @@
                             </span>
                         </a>
                     </p>
+                    <div id="message" style="text-align: left;">
+
+                    </div>
                     <p><input type="submit" value="Get Translation" class="btn btn-primary btn-block" /></p>
                 </form>
             </div>
         </div>
 
         <script>
-            //$(document).ready(function(){
-            //    document.getElementById("file").onchange = function() {
+            $(document).ready(function(){
+                document.getElementById("file").onchange = function() {
             //        document.getElementById("upload_file_form").submit();
-            //    };
-            //});
+                    var msg = '<div class="col-xs-12 alert alert-info">' +
+                        '<div class="glyphicon glyphicon-exclamation-sign"></div>' +
+                        '<div>You have added an image.</div>' +
+                    '</div>';
+                    $('#message').html(msg);
+                };
+            });
         </script>
     </div>
 </body>
