@@ -65,7 +65,7 @@
                     <div id="message" style="text-align: left;">
 
                     </div>
-                    <p><input type="submit" value="Get Translation" class="btn btn-primary btn-block" /></p>
+                    <p><button type="button" id="translate_btn" class="btn btn-primary btn-block">Get Translation</button></p>
                 </form>
             </div>
         </div>
@@ -74,12 +74,25 @@
             $(document).ready(function(){
                 document.getElementById("file").onchange = function() {
             //        document.getElementById("upload_file_form").submit();
+                    $('#message').html('');
                     var msg = '<div class="col-xs-12 alert alert-info">' +
-                        '<div class="glyphicon glyphicon-exclamation-sign"></div>' +
+                        '<div class="glyphicon glyphicon-info-sign"></div>' +
                         '<div>You have added an image.</div>' +
                     '</div>';
                     $('#message').html(msg);
                 };
+                document.getElementById("translate_btn").click = function(){
+                    if( document.getElementById("videoUploadFile").files.length == 0 ){
+                        $('#message').html('');
+                        var msg = '<div class="col-xs-12 alert alert-danger">' +
+                            '<div class="glyphicon glyphicon-exclamation-sign"></div>' +
+                            '<div>Please add an image.</div>' +
+                        '</div>';
+                        $('#message').html(msg);
+                    }else{
+                        $('#upload_file_form').submit();
+                    }
+                });
             });
         </script>
     </div>
