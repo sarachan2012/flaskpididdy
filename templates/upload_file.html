@@ -41,6 +41,24 @@
         @media only screen and (min-width : 500px) {
             h2 {font-size: 3em;}
         }
+        #overlay {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            background: #000;
+            opacity: 0.8;
+            filter: alpha(opacity=80);
+        }
+        #loading {
+            width: 150px;
+            height: 57px;
+            position: absolute;
+            top: 40%;
+            left: 48%;
+            margin: -28px 0 0 -25px;
+        }
     </style>
 </head>
 <body style="padding-top: 60px;">
@@ -54,18 +72,20 @@
             <div class="col-md-4 col-centered" style="text-align: center;">
                 <form action="{{ landing_page }}" method="post" enctype="multipart/form-data" id="upload_file_form">
                     <p style="text-align:center;">
-                        <input type="file" name="file" id="file" class="form-control" style="display:none;" />
-                        <a onclick="document.getElementById('file').click();" style="color:#FFCB06;">
+                        <input type="file" name="file" id="file" accept="image/*" capture="camera" class="form-control" style="display:none;" />
+                        <a onclick="document.getElementById('file').click();" style="color:#FFCB06;text-align:center;text-decoration: none;cursor: pointer; cursor: hand;">
                             <span class="fa-stack fa-5x">
                               <i class="fa fa-circle-thin fa-stack-2x"></i>
                               <i class="fa fa-camera fa-stack-1x"></i>
                             </span>
+                            <br/>
+                            <span style="font-weight:bold;color:#000000;">1. Take a Photo</span>
                         </a>
                     </p>
                     <div id="message" style="text-align: left;">
 
                     </div>
-                    <p><button type="button" id="translate_btn" class="btn btn-primary btn-block">Get Translation</button></p>
+                    <p><button type="button" id="translate_btn" class="btn btn-primary btn-block">2. Get Translation</button></p>
                 </form>
             </div>
         </div>
@@ -81,6 +101,27 @@
                     '</div>';
                     $('#message').html(msg);
                 };
+                 function loading () {
+                    // add the overlay with loading image to the page
+                    var over = '<div id="overlay"> <p id="loading" style="text-align:center;">' +
+                        '<img src="{{ url_for('static', filename='loading4.gif') }}">' +
+                        ' <br/>'+
+                        '<span class="loading" style="color:#fff;"> Please wait... <br/>We are translating... </span></p>' +
+                        '</div>';
+                    $(over).appendTo('body');
+
+                    // click on the overlay to remove it
+                    //$('#overlay').click(function() {
+                    //    $(this).remove();
+                    //});
+
+                    // hit escape to close the overlay
+                    $(document).keyup(function(e) {
+                        if (e.which === 27) {
+                            $('#overlay').remove();
+                        }
+                    });
+                }
                 $('#translate_btn').bind("click",function(){
                     var imgVal = $('#file').val();
                     if(imgVal==''){
@@ -91,6 +132,7 @@
                         '</div>';
                         $('#message').html(msg);
                     }else{
+                        loading();
                         $('#upload_file_form').submit();
                     }
                 });
