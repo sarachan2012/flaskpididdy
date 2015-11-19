@@ -68,3 +68,6 @@ def clear_audios_table():
 
 def get_all_audios_record_db():
     return Audio.query.all()
+
+def get_audio_cannot_find_refetch_audio():
+    return Audio.query.filter(Audio.audio_id==1).first()
