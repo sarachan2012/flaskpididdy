@@ -70,7 +70,8 @@ def elderly_web_fileupload():
         image_id = data['image_id']
         audio_id = data['audio_id']
         audio_url = data['audio_url']
-        return render_template('play.html', image_id = image_id, audio_id = audio_id, audio_url = audio_url, url_audiorefetch = 'webaudiorefetch')
+        output = data['output']
+        return render_template('play.html', image_id = image_id, audio_id = audio_id, audio_url = audio_url, output=output, url_audiorefetch = 'webaudiorefetch')
 
     elif request.method == 'GET':
         resp = jsonify( {
@@ -127,7 +128,9 @@ def update_web_audio_refetch():
         ret_image_id = data['image_id']
         ret_audio_id = data['audio_id']
         ret_audio_url = data['audio_url']
-        return render_template('play.html', image_id = ret_image_id, audio_id = ret_audio_id, audio_url = ret_audio_url, url_audiorefetch = 'webaudiorefetch')
+        ret_output = data['output']
+        return render_template('play.html', image_id = ret_image_id, audio_id = ret_audio_id,
+                               audio_url = ret_audio_url, output=ret_output, url_audiorefetch = 'webaudiorefetch')
     elif request.method == 'GET':
         resp = jsonify( {
                 u'status': 200,

@@ -48,10 +48,15 @@ def elderly_web_file_upload(file):
             # get the audio
             audio_obj = audio_manager.get_audio_lowest_refetch_image_only(has_existing_image)
             # print "Audio obj:" + str(audio_obj)
+            output = ocr_manager.process_image(image_s3_url)
+            output_arr = re.split('[ \n\t\r]', output)
+            output = " ".join(output_arr)
+            chinese_output = translator(output)
             resp = {
                 'image_id': str(has_existing_image),
                 'audio_id': str(audio_obj.audio_id),
                 'audio_url': str(audio_obj.audio_url),
+                'output' : str(chinese_output),
                 'message': str('Successful file upload.')
             }
             return resp
@@ -77,6 +82,7 @@ def elderly_web_file_upload(file):
             'image_id': str(image_id),
             'audio_id': str(audio_id),
             'audio_url': str(audio_s3_url),
+            'output' : str(chinese_output),
             'message': str('Successful file upload.')
         }
         # delete file

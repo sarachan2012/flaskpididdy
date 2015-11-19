@@ -7,6 +7,15 @@
     <script type="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body style="padding-top: 50px;">
+    <div class="col-md-6 col-md-offset-3" style="text-align:center">
+        <h2 class="page-header">Action</h2>
+    </div>
+    <div class="col-md-6 col-md-offset-3" style="text-align: center;">
+        <p>Output:</p>
+        <p>
+            <textarea name="output">{{output}}</textarea>
+        </p>
+    </div>
     <div class="col-md-6 col-md-offset-3" style="text-align: center;">
         <button class="play btn btn-primary">Play</button>
         <button class="pause btn btn-warning">Pause</button>
@@ -18,6 +27,7 @@
         <input type="hidden" id="audio_id" name="audio_id" value="{{ audio_id }}"/>
         <input type="hidden" name="image_id" value="{{ image_id }}"/>
         <input type="hidden"  name="audio_url" value="{{ audio_url }}"/>
+        <input type="hidden" name="output" value="{{output}}"/>
         <input type="submit" class="btn btn-success" value="Refetch"/>
     </form>
 
