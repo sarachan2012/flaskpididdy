@@ -9,19 +9,9 @@
 <body style="padding-top: 50px;">
     <div class="col-md-6 col-md-offset-3" style="text-align: center;">
         <form action="{{ landing_page }}" method="post" enctype="multipart/form-data" id="upload_file_form">
-            <p><input type="file" name="file" id="file" />
+            <p><input type="file" name="file" id="file" onchange="this.form.submit()" />
             </p>
             <!--<p><input type="submit" value="Submit" /></p>-->
         </form>
     </div>
-    <script type="text/javscript">
-        $(document).ready(function(){
-            $('#file').change(function(){
-                 //$(this).closest('form').trigger('submit');
-                 //$('#formElementId').trigger('submit');
-                 $('#upload_file_form').submit();
-            });
-        });
-    </script>
-
 </body>
