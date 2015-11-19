@@ -52,13 +52,13 @@ def getAllS3Files():
 
 @app.route('/file', methods = ['GET'])
 def upload():
-    # return render_template('upload_form.html', landing_page = 'fileupload')
-    return render_template('upload_form.html', landing_page = 'webfileupload')
+    # return render_template('upload_file.html', landing_page = 'fileupload')
+    return render_template('upload_file.html', landing_page = 'webfileupload')
 
 @app.route('/audio', methods = ['GET'])
 def audio_html():
-    return render_template('audio.html', landing_page = 'audioupload')
-    # return render_template('audio.html')
+    return render_template('upload_audio.html', landing_page = 'audioupload')
+    # return render_template('upload_audio.html')
 
 @app.route('/webfileupload', methods = ['GET', 'POST'])
 def elderly_web_fileupload():
