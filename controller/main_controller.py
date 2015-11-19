@@ -234,27 +234,27 @@ def update_refetch(image_id, audio_id):
     # get the next best audio
     new_audio_obj = audio_manager.get_audio_lowest_refetch(image_id, audio_id)
     # print str(new_audio_obj)
-    # if new_audio_obj is None:
-    #     resp = {
-    #         u'status': 200,
-    #         u'image_id': str(image_id),
-    #         u'audio_id': str(0),
-    #         u'audio_url': str('https://s3-ap-southeast-1.amazonaws.com/media2.pi-diddy.herokuapp.com/20151119112202_output.mp3'),
-    #         u'message': str('Successful refetch.')
-    #     }
-    #     return resp
-    # else:
-    new_audio_id = new_audio_obj.audio_id
-    new_audio_url = new_audio_obj.audio_url
-    print str(new_audio_id) + "," + str(new_audio_url)
-    resp = jsonify( {
-        u'status': 200,
-        u'image_id': str(image_id),
-        u'audio_id': str(new_audio_id),
-        u'audio_url': str(new_audio_url),
-        u'message': str('Successful refetch.')
-    } )
-    resp.status_code = 200
+    if new_audio_obj is None:
+        resp = jsonify( {
+            u'status': 200,
+            u'image_id': str(image_id),
+            u'audio_id': str(0),
+            u'audio_url': str('https://s3-ap-southeast-1.amazonaws.com/media2.pi-diddy.herokuapp.com/20151119112202_output.mp3'),
+            u'message': str('Successful refetch.')
+        })
+        return resp
+    else:
+        new_audio_id = new_audio_obj.audio_id
+        new_audio_url = new_audio_obj.audio_url
+        print str(new_audio_id) + "," + str(new_audio_url)
+        resp = jsonify( {
+            u'status': 200,
+            u'image_id': str(image_id),
+            u'audio_id': str(new_audio_id),
+            u'audio_url': str(new_audio_url),
+            u'message': str('Successful refetch.')
+        } )
+        resp.status_code = 200
     return resp
 
 def audioupload(file, image_id):
