@@ -6,33 +6,51 @@
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <script type="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <style>
+        .row-centered {
+            text-align:center;
+        }
+        .col-centered {
+            display:inline-block;
+            float:none;
+            /* reset the text-align */
+            text-align:left;
+            /* inline-block space fix */
+            margin-right:-4px;
+        }
+    </style>
 </head>
 <body>
     <div class="container" style="text-align:center;">
-        <div class="col-md-6" style="text-align:left;">
-            <h2 class="page-header">Translate</h2>
+        <div class="row row-centered">
+            <div class="col-md-6 col-centered" style="text-align:left;">
+                <h2 class="page-header">Translate</h2>
+            </div>
         </div>
-        <div class="col-md-6 col-md-offset-3" style="width:100%;">
-            <p style="font-weight: bold;">Output:</p>
-            <p>
-                <textarea style="width:50%;" class="form-control" name="output">{{ output.decode('utf-8') }}</textarea>
-            </p>
+        <div class="row row-centered">
+            <div class="col-md-6 col-centered">
+                <p style="font-weight: bold;">Output:</p>
+                <p>
+                    <textarea style="width:100%;" class="form-control" name="output">{{ output.decode('utf-8') }}</textarea>
+                </p>
+            </div>
         </div>
-        <div class="col-md-6 col-md-offset-3" style="text-align: center;">
-            <button class="play btn btn-primary">Play</button>
-            <button class="pause btn btn-warning">Pause</button>
-            <button class="resume btn btn-warning" style="display: none;">Resume</button>
-            <button class="stop btn btn-danger">Stop</button>
-        </div>
+        <div class="row row-centered">
+            <div class="col-md-6 col-centered" style="text-align: center;">
+                <button class="play btn btn-primary">Play</button>
+                <button class="pause btn btn-warning">Pause</button>
+                <button class="resume btn btn-warning" style="display: none;">Resume</button>
+                <button class="stop btn btn-danger">Stop</button>
+            </div>
 
-        <form action="{{ url_audiorefetch }}" method="POST" class="col-md-6 col-md-offset-3" style="text-align: center; margin-top: 20px;">
-            <input type="hidden" id="audio_id" name="audio_id" value="{{ audio_id }}"/>
-            <input type="hidden" name="image_id" value="{{ image_id }}"/>
-            <input type="hidden"  name="audio_url" value="{{ audio_url }}"/>
-            <input type="hidden" name="output" value="{{ output.decode('utf-8') }}"/>
-            <input type="submit" class="btn btn-success" value="Refetch"/>
-        </form>
-
+            <form action="{{ url_audiorefetch }}" method="POST" class="col-md-6 col-md-offset-3" style="text-align: center; margin-top: 20px;">
+                <input type="hidden" id="audio_id" name="audio_id" value="{{ audio_id }}"/>
+                <input type="hidden" name="image_id" value="{{ image_id }}"/>
+                <input type="hidden"  name="audio_url" value="{{ audio_url }}"/>
+                <input type="hidden" name="output" value="{{ output.decode('utf-8') }}"/>
+                <input type="submit" class="btn btn-success" value="Refetch"/>
+            </form>
+            </div>
         <script>
         $(document).ready(function() {
             url = '{{ audio_url }}';
@@ -47,7 +65,7 @@
 
             $.get();
 
-            audioElement.play();
+            // audioElement.play();
 
             audioElement.addEventListener("load", function() {
                 audioElement.play();
