@@ -56,7 +56,7 @@ def elderly_web_file_upload(file):
                 'image_id': str(has_existing_image),
                 'audio_id': str(audio_obj.audio_id),
                 'audio_url': str(audio_obj.audio_url),
-                'output' : str(chinese_output),
+                'output' : chinese_output,
                 'message': str('Successful file upload.')
             }
             return resp
