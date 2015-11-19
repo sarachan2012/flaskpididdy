@@ -121,7 +121,7 @@ def update_web_audio_refetch():
         dataDict = request.form
         image_id = dataDict['image_id']
         audio_id = dataDict['audio_id']
-        output = dataDict['output']
+        output = dataDict['output'].encode('utf-8')
         print str(image_id) + "," + str(audio_id)
         # print file
         data = main_controller.update_web_refetch(image_id, audio_id)
