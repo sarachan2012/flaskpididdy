@@ -303,6 +303,7 @@ def db_all_audios_record():
         dict['id'] = img.audio_id
         dict['url'] = img.audio_url
         dict['count'] = img.refetch
+        dict['iid'] = img.image_id
         dict['create'] = date_manager.convert_time_unix_to_human_timestamp(img.created_on)
         dict['update'] = date_manager.convert_time_unix_to_human_timestamp(img.updated_on)
         arr.append(dict)
