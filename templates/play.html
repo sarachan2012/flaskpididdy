@@ -8,78 +8,80 @@
     <script type="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="col-md-6 col-md-offset-3" style="text-align:center">
-        <h2 class="page-header">Translate</h2>
-    </div>
-    <div class="col-md-6 col-md-offset-3" style="width:100%;">
-        <p style="font-weight: bold;">Output:</p>
-        <p>
-            <textarea style="width:50%;" class="form-control" name="output">{{ output.decode('utf-8') }}</textarea>
-        </p>
-    </div>
-    <div class="col-md-6 col-md-offset-3" style="text-align: center;">
-        <button class="play btn btn-primary">Play</button>
-        <button class="pause btn btn-warning">Pause</button>
-        <button class="resume btn btn-warning" style="display: none;">Resume</button>
-        <button class="stop btn btn-danger">Stop</button>
-    </div>
+    <div class="container" style="text-align:center;">
+        <div class="col-md-6" style="text-align:left;">
+            <h2 class="page-header">Translate</h2>
+        </div>
+        <div class="col-md-6 col-md-offset-3" style="width:100%;">
+            <p style="font-weight: bold;">Output:</p>
+            <p>
+                <textarea style="width:50%;" class="form-control" name="output">{{ output.decode('utf-8') }}</textarea>
+            </p>
+        </div>
+        <div class="col-md-6 col-md-offset-3" style="text-align: center;">
+            <button class="play btn btn-primary">Play</button>
+            <button class="pause btn btn-warning">Pause</button>
+            <button class="resume btn btn-warning" style="display: none;">Resume</button>
+            <button class="stop btn btn-danger">Stop</button>
+        </div>
 
-    <form action="{{ url_audiorefetch }}" method="POST" class="col-md-6 col-md-offset-3" style="text-align: center; margin-top: 20px;">
-        <input type="hidden" id="audio_id" name="audio_id" value="{{ audio_id }}"/>
-        <input type="hidden" name="image_id" value="{{ image_id }}"/>
-        <input type="hidden"  name="audio_url" value="{{ audio_url }}"/>
-        <input type="hidden" name="output" value="{{ output.decode('utf-8') }}"/>
-        <input type="submit" class="btn btn-success" value="Refetch"/>
-    </form>
+        <form action="{{ url_audiorefetch }}" method="POST" class="col-md-6 col-md-offset-3" style="text-align: center; margin-top: 20px;">
+            <input type="hidden" id="audio_id" name="audio_id" value="{{ audio_id }}"/>
+            <input type="hidden" name="image_id" value="{{ image_id }}"/>
+            <input type="hidden"  name="audio_url" value="{{ audio_url }}"/>
+            <input type="hidden" name="output" value="{{ output.decode('utf-8') }}"/>
+            <input type="submit" class="btn btn-success" value="Refetch"/>
+        </form>
 
-    <script>
-    $(document).ready(function() {
-        url = '{{ audio_url }}';
+        <script>
+        $(document).ready(function() {
+            url = '{{ audio_url }}';
 
-        //var audioElement = document.getElementsByTagName('audio');
-        var audioElement = document.createElement("AUDIO");
-        audioElement.src = url;
-        audioElement.autoplay=true;
-        //audioElement.setAttribute('src', 'https://s3-ap-southeast-1.amazonaws.com/media2.pi-diddy.herokuapp.com/' + url);
-        //audioElement.setAttribute('autoplay', 'autoplay');
-        //audioElement.load()
+            //var audioElement = document.getElementsByTagName('audio');
+            var audioElement = document.createElement("AUDIO");
+            audioElement.src = url;
+            audioElement.autoplay=true;
+            //audioElement.setAttribute('src', 'https://s3-ap-southeast-1.amazonaws.com/media2.pi-diddy.herokuapp.com/' + url);
+            //audioElement.setAttribute('autoplay', 'autoplay');
+            //audioElement.load()
 
-        $.get();
+            $.get();
 
-        audioElement.play();
-
-        audioElement.addEventListener("load", function() {
             audioElement.play();
-        }, true);
 
-        $('.play').click(function() {
-            audioElement.pause();
-            audioElement.currentTime = 0;
-            audioElement.play();
+            audioElement.addEventListener("load", function() {
+                audioElement.play();
+            }, true);
+
+            $('.play').click(function() {
+                audioElement.pause();
+                audioElement.currentTime = 0;
+                audioElement.play();
+            });
+
+            $('.pause').click(function() {
+                audioElement.pause();
+                $(this).hide();
+                $(".resume").show();
+            });
+
+            $('.stop').click(function() {
+                audioElement.pause();
+                audioElement.currentTime = 0;
+            });
+
+            $('.resume').click(function() {
+                audioElement.play();
+                $(this).hide();
+                $(".pause").show();
+            });
         });
 
-        $('.pause').click(function() {
-            audioElement.pause();
-            $(this).hide();
-            $(".resume").show();
-        });
-
-        $('.stop').click(function() {
-            audioElement.pause();
-            audioElement.currentTime = 0;
-        });
-
-        $('.resume').click(function() {
-            audioElement.play();
-            $(this).hide();
-            $(".pause").show();
-        });
-    });
-
-    function getURLParameter(name) {
-      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
-    }
-    </script>
+        function getURLParameter(name) {
+          return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+        }
+        </script>
+    </div>
 </body>
 
 
