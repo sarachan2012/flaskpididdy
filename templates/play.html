@@ -23,8 +23,7 @@
 
     <script>
     $(document).ready(function() {
-        url = $("#audio_url").val();
-        console.log( $("#audio_url").val());
+        url = '{{ audio_url }}';
 
         //var audioElement = document.getElementsByTagName('audio');
         var audioElement = document.createElement("AUDIO");
