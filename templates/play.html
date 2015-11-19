@@ -28,8 +28,10 @@
 
         //var audioElement = document.getElementsByTagName('audio');
         var audioElement = document.createElement("AUDIO");
-        audioElement.setAttribute('src', 'https://s3-ap-southeast-1.amazonaws.com/media2.pi-diddy.herokuapp.com/' + url);
-        audioElement.setAttribute('autoplay', 'autoplay');
+        audioElement.src = url;
+        audioElement.autoplay=true;
+        //audioElement.setAttribute('src', 'https://s3-ap-southeast-1.amazonaws.com/media2.pi-diddy.herokuapp.com/' + url);
+        //audioElement.setAttribute('autoplay', 'autoplay');
         //audioElement.load()
 
         $.get();
