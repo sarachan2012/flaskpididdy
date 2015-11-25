@@ -206,8 +206,9 @@ def exec_webspeech(text, file_path):
     # return urllib.urlretrieve (url, filepath)
 
 def update_web_refetch(image_id, audio_id):
-    # get audio object and  update audio object
-    audio_manager.update_audio_refetch(audio_id)
+    if audio_id != 0:
+        # get audio object and  update audio object
+        audio_manager.update_audio_refetch(audio_id)
     # get the next best audio
     new_audio_obj = audio_manager.get_audio_lowest_refetch(image_id, audio_id)
     # print str(new_audio_obj)
@@ -234,8 +235,9 @@ def update_web_refetch(image_id, audio_id):
         return resp
 
 def update_refetch(image_id, audio_id):
-    # get audio object and  update audio object
-    audio_manager.update_audio_refetch(audio_id)
+    if audio_id != 0:
+        # get audio object and  update audio object
+        audio_manager.update_audio_refetch(audio_id)
     # get the next best audio
     new_audio_obj = audio_manager.get_audio_lowest_refetch(image_id, audio_id)
     # print str(new_audio_obj)
