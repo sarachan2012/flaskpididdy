@@ -235,6 +235,25 @@ def db_all_audios_table():
     print str(results)
     return render_template('audios_db_table.html', obj_list = results)
 
+@app.route('/db/images/delete', methods = ['GET'])
+def db_all_images_table():
+    id = request.args.get('imageid')
+    main_controller.db_delete_image_record(id)
+    return 'Image record deleted.'
+
+@app.route('/db/audios/delete', methods = ['GET'])
+def db_all_audios_table():
+    id = request.args.get('audioid')
+    main_controller.db_delete_audio_record(id)
+    return 'Audio record deleted.'
+
+@app.route('/db/audios/update', methods = ['GET'])
+def db_all_audios_table():
+    id = request.args.get('audioid')
+    new_count = request.args.get('count')
+    main_controller.db_update_audio_refetch(id, new_count)
+    return 'Audio record\'s refetch count has been updated.'
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(app.config.get('HOST'), app.config.get('PORT'), app.debug)

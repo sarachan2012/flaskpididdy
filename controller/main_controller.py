@@ -37,13 +37,16 @@ def get_all_s3_files():
     return arr
 
 def elderly_web_file_upload(file):
+    print "Check file exist a not"
     if file and image_allowed_file(file.filename):
         image_file_name = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
+        print "Image file name: " + str(image_file_name)
         file = file.resize((160,300),Image.ANTIALIAS)
         image_file_path = image_manager.saveFile(file, image_file_name)
+        print "Uploaded file is saved. (" + str(image_file_name) + ")"
         # upload to amazon s3
         image_s3_url = s3_manager.upload_image_audio_to_s3(image_file_name, image_file_path)
-        # print image_s3_url
+        print "Uploaded file url: " + str(image_s3_url)
         # image recognition
         has_existing_image = image_process(image_s3_url)
         print "Existing Image: " + str(has_existing_image)
@@ -313,6 +316,14 @@ def db_all_audios_record():
 
     return arr
 
+def db_delete_image_record(id):
+    return image_manager.delete_image_by_id(id)
+
+def db_delete_audio_record(id):
+    return audio_manager.delete_audio_by_id(id)
+
+def db_update_audio_refetch(audio_id, new_count):
+    return audio_manager.update_refetch_by_id(audio_id, new_count)
 
 def test_file_upload(file):
     if file and image_allowed_file(file.filename):

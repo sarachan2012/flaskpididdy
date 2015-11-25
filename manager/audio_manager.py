@@ -71,3 +71,13 @@ def get_all_audios_record_db():
 
 def get_audio_cannot_find_refetch_audio():
     return Audio.query.filter(Audio.audio_id==1).first()
+
+def delete_audio_by_id(input_id):
+    Audio.query.filter_by(audio_id=input_id).delete()
+    db.session.commit()
+    return True
+
+def update_refetch_by_id(audio_id, new_count):
+    audio_obj = db.session.query(Audio).filter(Audio.audio_id==audio_id).first()
+    audio_obj.refetch = new_count
+    return db.session.commit()

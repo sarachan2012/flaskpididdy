@@ -56,3 +56,8 @@ def clear_images_table():
 
 def get_all_images_record_db():
     return Image.query.all()
+
+def delete_image_by_id(input_id):
+    Image.query.filter_by(image_id=input_id).delete()
+    db.session.commit()
+    return True
