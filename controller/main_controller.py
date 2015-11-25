@@ -1,3 +1,5 @@
+from PIL import Image
+
 __author__ = 'SARA'
 import datetime
 from flask import Flask, jsonify, current_app as app
@@ -37,6 +39,7 @@ def get_all_s3_files():
 def elderly_web_file_upload(file):
     if file and image_allowed_file(file.filename):
         image_file_name = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
+        file = file.resize((160,300),Image.ANTIALIAS)
         image_file_path = image_manager.saveFile(file, image_file_name)
         # upload to amazon s3
         image_s3_url = s3_manager.upload_image_audio_to_s3(image_file_name, image_file_path)
