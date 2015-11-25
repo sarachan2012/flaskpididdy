@@ -63,7 +63,6 @@ def audio_html():
 @app.route('/webfileupload', methods = ['GET', 'POST'])
 def elderly_web_fileupload():
     print "Check POST or GET method."
-    print str(request.files['file'])
     if request.method == 'POST':
         file = request.files['file']
         print file
