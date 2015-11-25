@@ -41,7 +41,6 @@ def elderly_web_file_upload(file):
     if file and image_allowed_file(file.filename):
         image_file_name = getCurrentTimestamp() + '_' + secure_filename(file.filename) #filename and extension
         print "Image file name: " + str(image_file_name)
-        file = file.resize((160,300),Image.ANTIALIAS)
         image_file_path = image_manager.saveFile(file, image_file_name)
         print "Uploaded file is saved. (" + str(image_file_name) + ")"
         # upload to amazon s3
